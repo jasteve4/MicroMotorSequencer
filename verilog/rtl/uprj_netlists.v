@@ -25,4 +25,12 @@
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
+    `include "backend_cycle_controller.v"
+    `include "dot_driver.v"
+    `include "dot_sequencer.v"
+    `include "impulse.v"
+    `include "sequencer_chip.v"
+    `include "spi_controller.v"
+    `include "HBrigeDriver.v"
+    `include "system_controller.v"
 `endif
