@@ -36,6 +36,7 @@ module system_controller(
 );
 
   wire                latch_cmd;
+  wire                mem_config_select;
   reg                 update_cmd;
   wire [3:0]          sequencer_select;
   wire [1:0]          cmd_section;

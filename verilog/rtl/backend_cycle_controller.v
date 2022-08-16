@@ -15,6 +15,7 @@ module backend_cycle_controller
   output wire [MEM_ADDRESS_LENGTH-1:0]  col_select,
   output wire                           output_active,
   output reg  [15:0]                    inverter_select,
+  output reg  [15:0]                    row_col_select,
   output wire                           update_cycle_complete
 );
 
@@ -111,6 +112,15 @@ module backend_cycle_controller
       2'b10   : inverter_select <= (config_address == 6'h08) ? config_data : inverter_select;
       2'b11   : inverter_select <= inverter_select;
       default : inverter_select <= 'b0;
+    endcase
+  end
+
+  always@(posedge clock)
+  begin
+    case({reset_n,write_config_n})
+      2'b10   : row_col_select <= (config_address == 6'h09) ? config_data : row_col_select;
+      2'b11   : row_col_select <= row_col_select;
+      default : row_col_select <= 'b0;
     endcase
   end
 

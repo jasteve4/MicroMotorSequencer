@@ -35,6 +35,7 @@ module sequencer_chip(
   wire  [6:0]   col_select;
   wire          output_active;
   wire [15:0]   inverter_select;
+  wire [15:0]   row_col_select;
 
   system_controller u0 (
     .clock                 (clock                 ),
@@ -70,6 +71,7 @@ module sequencer_chip(
     .col_select               (col_select            ),
     .output_active            (output_active         ),
     .inverter_select          (inverter_select       ),
+    .row_col_select           (row_col_select        ),
     .update_cycle_complete    (update_cycle_complete )
   );
 
@@ -94,13 +96,13 @@ module sequencer_chip(
         .mem_write_n          (mem_write_n[I]       ),
         .mem_dot_data         (mem_dot_data         ),
         .mem_dot_write_n      (mem_dot_write_n[I]   ),
-        .advance              (advance              ),
         .row_select           (row_select           ),
         .col_select           (col_select           ),
         .mem_sel_row_address  (mem_sel_row_address  ),
         .mem_sel_col_address  (mem_sel_col_address  ),
         .mem_sel_data         (mem_sel_data[6:0]    ),
         .mem_sel_write_n      (mem_sel_write_n[I]   ),
+        .row_col_select       (row_col_select[I]    ),
         .firing_data          (firing_data          ),
         .firing_bit           (firing_bit           )
       );                      
