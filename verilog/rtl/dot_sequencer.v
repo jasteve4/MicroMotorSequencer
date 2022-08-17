@@ -1,8 +1,10 @@
 
 module dot_sequencer
 #(
-  parameter MEM_LENGTH = 128,
-  parameter MEM_ADDRESS_LENGTH=7
+  //parameter MEM_LENGTH = 128,
+  //parameter MEM_ADDRESS_LENGTH=7
+  parameter MEM_LENGTH = 48,
+  parameter MEM_ADDRESS_LENGTH=6
 )
 (
   input   wire                            clock,
@@ -45,7 +47,7 @@ module dot_sequencer
         endcase
       end
     end
-    for(J=0;J<8;J=J+1)
+    for(J=0;J<$ceil(MEM_LENGTH/16);J=J+1)
     begin
       for(I=0;I<MEM_LENGTH;I=I+1)
       begin
@@ -59,7 +61,7 @@ module dot_sequencer
         end
       end
     end
-    for(J=0;J<8;J=J+1)
+    for(J=0;J<$ceil(MEM_LENGTH/16);J=J+1)
     begin
       always@(posedge clock)
       begin
@@ -72,11 +74,12 @@ module dot_sequencer
     end
   endgenerate
 
-
+  assign current_data_idx = row_col_select ? mem_sel[col_select] : mem_sel[row_select];
 
   assign current_row = mem[row_select];
+
+
   assign current_bit = current_row[col_select];
-  assign current_data_idx = row_col_select ? mem_sel[col_select] : mem_sel[row_select];
   assign firing_data = mem_dot[current_data_idx];
   assign firing_bit = current_bit;
 
