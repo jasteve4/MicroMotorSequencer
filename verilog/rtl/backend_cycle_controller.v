@@ -1,7 +1,6 @@
 
 module backend_cycle_controller
 #(
-  parameter MEM_LENGTH = 128,
   parameter MEM_ADDRESS_LENGTH=7
 )
 (
@@ -151,7 +150,6 @@ module backend_cycle_controller
   always@(posedge clock)      
   begin
     case({reset_n,timer_enable,advance})
-      //3'b111: row_sel <= row_sel < (MEM_LENGTH-1) && col_sel==(MEM_LENGTH-1) ? row_sel+1'b1 : col_sel == (MEM_LENGTH-1) ? 'b0 : row_sel; 
       3'b111: row_sel <= row_sel < row_limit && col_sel==col_limit ? row_sel+1'b1 : col_sel == col_limit ? 'b0 : row_sel; 
       3'b110: row_sel <= row_sel; 
       default: row_sel <= 'b0;

@@ -1,5 +1,10 @@
 
-module sequencer_chip(
+module sequencer_chip
+#(
+  parameter MEM_LENGTH = 48,
+  parameter MEM_ADDRESS_LENGTH=6
+)
+(
   input  wire         clock,
   input  wire         reset_n,
   input  wire         latch_data,
@@ -28,11 +33,11 @@ module sequencer_chip(
   wire [5:0]    config_address;
   wire [7:0]    mem_sel_data;
   wire [6:0]    mem_sel_col_address;
-  wire [6:0]    mem_sel_row_address;
+  //wire [6:0]    mem_sel_row_address;
   wire          timer_enable;
 
-  wire  [6:0]   row_select;
-  wire  [6:0]   col_select;
+  wire  [MEM_ADDRESS_LENGTH-1:0]   row_select;
+  wire  [MEM_ADDRESS_LENGTH-1:0]   col_select;
   wire          output_active;
   wire [15:0]   inverter_select;
   wire [15:0]   row_col_select;
@@ -55,12 +60,17 @@ module sequencer_chip(
     .config_address        (config_address        ),       
     .mem_sel_data          (mem_sel_data          ),         
     .mem_sel_col_address   (mem_sel_col_address   ),   
-    .mem_sel_row_address   (mem_sel_row_address   ),
+    //.mem_sel_row_address   (mem_sel_row_address   ),
     .timer_enable          (timer_enable          ),
     .update_cycle_complete (update_cycle_complete )
   );
 
-  backend_cycle_controller u1(
+  backend_cycle_controller 
+  #(
+  .MEM_ADDRESS_LENGTH         (MEM_ADDRESS_LENGTH)
+  )
+  u1
+  (
     .clock                    (clock                 ),
     .reset_n                  (reset_n               ),
     .timer_enable             (timer_enable          ),
@@ -87,24 +97,30 @@ module sequencer_chip(
       wire p_wire;
       wire n_wire;
 
-      dot_sequencer u2 (
-        .clock                (clock                ),
-        .reset_n              (reset_n              ),
-        .mask_select          (mask_select          ),
-        .mem_address          (mem_address          ),
-        .mem_data             (mem_data             ),
-        .mem_write_n          (mem_write_n[I]       ),
-        .mem_dot_data         (mem_dot_data         ),
-        .mem_dot_write_n      (mem_dot_write_n[I]   ),
-        .row_select           (row_select           ),
-        .col_select           (col_select           ),
-        .mem_sel_row_address  (mem_sel_row_address  ),
-        .mem_sel_col_address  (mem_sel_col_address  ),
-        .mem_sel_data         (mem_sel_data[6:0]    ),
-        .mem_sel_write_n      (mem_sel_write_n[I]   ),
-        .row_col_select       (row_col_select[I]    ),
-        .firing_data          (firing_data          ),
-        .firing_bit           (firing_bit           )
+      dot_sequencer 
+      #(
+        .MEM_LENGTH           (MEM_LENGTH           ),
+        .MEM_ADDRESS_LENGTH   (MEM_ADDRESS_LENGTH   )
+      )
+      u2
+      (
+        .clock                (clock                                        ),
+        .reset_n              (reset_n                                      ),
+        .mask_select          (mask_select                                  ),
+        .mem_address          (mem_address         [MEM_ADDRESS_LENGTH-1:0] ),
+        .mem_data             (mem_data                                     ),
+        .mem_write_n          (mem_write_n[I]                               ),
+        .mem_dot_data         (mem_dot_data                                 ),
+        .mem_dot_write_n      (mem_dot_write_n[I]                           ),
+        .row_select           (row_select                                   ),
+        .col_select           (col_select                                   ),
+        //.mem_sel_row_address  (mem_sel_row_address [MEM_ADDRESS_LENGTH-1:0] ),
+        .mem_sel_col_address  (mem_sel_col_address [MEM_ADDRESS_LENGTH-1:0] ),
+        .mem_sel_data         (mem_sel_data        [MEM_ADDRESS_LENGTH-1:0] ),
+        .mem_sel_write_n      (mem_sel_write_n[I]                           ),
+        .row_col_select       (row_col_select[I]                            ),
+        .firing_data          (firing_data                                  ),
+        .firing_bit           (firing_bit                                   )
       );                      
 
       dot_driver u3(          

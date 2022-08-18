@@ -29,7 +29,7 @@ module system_controller(
                        
   output wire [7:0]   mem_sel_data,         
   output wire [6:0]   mem_sel_col_address,  
-  output wire [6:0]   mem_sel_row_address,
+  //output wire [6:0]   mem_sel_row_address,
 
   output reg          timer_enable,
   input wire          update_cycle_complete
@@ -87,7 +87,7 @@ module system_controller(
 
   assign mem_sel_data         = cmd[7:0];   // 8 bits for sequence data
   assign mem_sel_col_address  = cmd[14:8];  // 7 bits for col address
-  assign mem_sel_row_address  = cmd[21:15]; // 7 bits for row address
+  //assign mem_sel_row_address  = cmd[21:15]; // 7 bits for row address
   assign mem_config_select    = cmd[22];
 
   always@(posedge clock)

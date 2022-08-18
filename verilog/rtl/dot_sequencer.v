@@ -17,7 +17,7 @@ module dot_sequencer
   input   wire                            mem_dot_write_n,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   row_select,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   col_select,
-  input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_row_address,
+  //input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_row_address,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_col_address,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_data,
   input   wire                            mem_sel_write_n,
