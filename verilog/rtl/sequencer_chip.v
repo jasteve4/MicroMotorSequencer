@@ -27,14 +27,10 @@ module sequencer_chip
   wire [NUM_OF_DRIVERS-1:0]   mem_write_n;
   wire          write_config_n;
   wire [2:0]    mask_select;
-  wire [15:0]   mem_data;
   wire [6:0]    mem_address;
-  wire [15:0]   mem_dot_data;
-  wire [15:0]   config_data;
+  wire [15:0]   data_out;
   wire [5:0]    config_address;
-  wire [7:0]    mem_sel_data;
   wire [6:0]    mem_sel_col_address;
-  //wire [6:0]    mem_sel_row_address;
   wire          timer_enable;
 
   wire  [MEM_ADDRESS_LENGTH-1:0]   row_select;
@@ -58,14 +54,10 @@ module sequencer_chip
     .mem_write_n           (mem_write_n           ),
     .write_config_n        (write_config_n        ),
     .mask_select           (mask_select           ),
-    .mem_data              (mem_data              ),             
     .mem_address           (mem_address           ),
-    .mem_dot_data          (mem_dot_data          ),         
-    .config_data           (config_data           ),          
     .config_address        (config_address        ),       
-    .mem_sel_data          (mem_sel_data          ),         
     .mem_sel_col_address   (mem_sel_col_address   ),   
-    //.mem_sel_row_address   (mem_sel_row_address   ),
+    .data_out              (data_out              ),
     .timer_enable          (timer_enable          ),
     .update_cycle_complete (update_cycle_complete )
   );
@@ -78,11 +70,10 @@ module sequencer_chip
   u1
   (
     .clock                    (clock                 ),
-//    .reset_n                  (reset_n               ),
     .timer_enable             (timer_enable          ),
     .write_config_n           (write_config_n        ),
     .config_address           (config_address        ),
-    .config_data              (config_data           ),
+    .config_data              (data_out              ),
     .row_select               (row_select            ),
     .col_select               (col_select            ),
     .output_active            (output_active         ),
@@ -111,18 +102,14 @@ module sequencer_chip
       u2
       (
         .clock                (clock                                        ),
-        //.reset_n              (reset_n                                      ),
         .mask_select          (mask_select                                  ),
         .mem_address          (mem_address         [MEM_ADDRESS_LENGTH-1:0] ),
-        .mem_data             (mem_data                                     ),
         .mem_write_n          (mem_write_n[I]                               ),
-        .mem_dot_data         (mem_dot_data                                 ),
         .mem_dot_write_n      (mem_dot_write_n[I]                           ),
         .row_select           (row_select                                   ),
         .col_select           (col_select                                   ),
-        //.mem_sel_row_address  (mem_sel_row_address [MEM_ADDRESS_LENGTH-1:0] ),
         .mem_sel_col_address  (mem_sel_col_address [MEM_ADDRESS_LENGTH-1:0] ),
-        .mem_sel_data         (mem_sel_data        [MEM_ADDRESS_LENGTH-1:0] ),
+        .data_in              (data_out                                     ),
         .mem_sel_write_n      (mem_sel_write_n[I]                           ),
         .row_col_select       (row_col_select[I]                            ),
         .firing_data          (firing_data                                  ),
@@ -131,7 +118,6 @@ module sequencer_chip
 
       dot_driver u3(          
         .clock                (clock                ),
-        //.reset_n              (reset_n              ),
         .dot_enable           (firing_bit           ),
         .output_enable        (output_active        ),
         .dot_state            (firing_data          ),
