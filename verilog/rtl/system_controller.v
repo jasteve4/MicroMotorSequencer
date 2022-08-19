@@ -7,16 +7,20 @@
 `define ONESHOT_EXE_STATE       4'b0110
 `define HOLDING_STATE           4'b0111
 
-module system_controller(
+module system_controller
+#(
+  parameter NUM_OF_DRIVERS = 16
+)
+(
   input   wire        clock,
   input   wire        reset_n,
   input   wire [31:0] cmd_data,
   input   wire        latch_data,
   input   wire        control_trigger,
 
-  output reg [15:0]   mem_dot_write_n,
-  output reg [15:0]   mem_sel_write_n,
-  output reg [15:0]   mem_write_n,
+  output reg [NUM_OF_DRIVERS-1:0]   mem_dot_write_n,
+  output reg [NUM_OF_DRIVERS-1:0]   mem_sel_write_n,
+  output reg [NUM_OF_DRIVERS-1:0]   mem_write_n,
   output reg          write_config_n,
   output reg [2:0]    mask_select,
  
@@ -114,7 +118,7 @@ module system_controller(
 
   genvar I;
   generate
-    for(I=0;I<16;I=I+1)
+    for(I=0;I<NUM_OF_DRIVERS;I=I+1)
     begin
       always@(posedge clock)
       begin

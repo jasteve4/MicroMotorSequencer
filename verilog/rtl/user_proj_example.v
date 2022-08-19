@@ -84,7 +84,7 @@ module user_proj_example
 	assign io_oeb[i]       = (~la_oenb[i+38]) ? la_data_in[i+38] : user_data_oeb[i];
 	assign la_data_out[i]  = (~la_oenb[i])    ? 1'b0             : io_in_reg[i];
 	//assign la_data_out[i] = (~la_oenb[i]) ? 1'b0 : io_in[i];
-	always@(posedge clk)
+	always@(posedge clock)
 	begin
 		io_in_reg[i] = io_in[i];
 	end
@@ -196,8 +196,8 @@ module user_proj_example
 
   sequencer_chip user_design(
 `ifdef USE_POWER_PINS
-     .vccd1                 (vccd1                 ),	// User area 1 1.8V supply
-     .vssd1                 (vssd1                 ),	// User area 1 digital ground
+     //.vccd1                 (vccd1                 ),	// User area 1 1.8V supply
+     //.vssd1                 (vssd1                 ),	// User area 1 digital ground
 `endif
     .clock                  (clock                 ),
     .reset_n                (reset_n               ),

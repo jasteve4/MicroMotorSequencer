@@ -2,14 +2,15 @@
 module sequencer_chip
 #(
   parameter MEM_LENGTH = 48,
-  parameter MEM_ADDRESS_LENGTH=6
+  parameter MEM_ADDRESS_LENGTH=6,
+  parameter NUM_OF_DRIVERS =16
 )
 (
   input  wire         clock,
   input  wire         reset_n,
   input  wire         latch_data,
   input  wire         control_trigger,
-  output wire [31:0]  driver_io,
+  output wire [NUM_OF_DRIVERS*2-1:0]  driver_io,
   output wire         update_cycle_complete,
   // spi 
   input wire          sclk,
@@ -21,9 +22,9 @@ module sequencer_chip
 
 
   wire [31:0]   cmd_data;
-  wire [15:0]   mem_dot_write_n;
-  wire [15:0]   mem_sel_write_n;
-  wire [15:0]   mem_write_n;
+  wire [NUM_OF_DRIVERS-1:0]   mem_dot_write_n;
+  wire [NUM_OF_DRIVERS-1:0]   mem_sel_write_n;
+  wire [NUM_OF_DRIVERS-1:0]   mem_write_n;
   wire          write_config_n;
   wire [2:0]    mask_select;
   wire [15:0]   mem_data;
@@ -39,10 +40,14 @@ module sequencer_chip
   wire  [MEM_ADDRESS_LENGTH-1:0]   row_select;
   wire  [MEM_ADDRESS_LENGTH-1:0]   col_select;
   wire          output_active;
-  wire [15:0]   inverter_select;
-  wire [15:0]   row_col_select;
+  wire [NUM_OF_DRIVERS-1:0]   inverter_select;
+  wire [NUM_OF_DRIVERS-1:0]   row_col_select;
 
-  system_controller u0 (
+  system_controller 
+  #(
+    .NUM_OF_DRIVERS             (NUM_OF_DRIVERS)
+  )
+  u0 (
     .clock                 (clock                 ),
     .reset_n               (reset_n               ),
     .cmd_data              (cmd_data              ),
@@ -67,7 +72,8 @@ module sequencer_chip
 
   backend_cycle_controller 
   #(
-  .MEM_ADDRESS_LENGTH         (MEM_ADDRESS_LENGTH)
+  .MEM_ADDRESS_LENGTH         (MEM_ADDRESS_LENGTH),
+  .NUM_OF_DRIVERS             (NUM_OF_DRIVERS)
   )
   u1
   (
