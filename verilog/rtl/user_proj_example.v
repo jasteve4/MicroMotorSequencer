@@ -111,8 +111,8 @@ module user_proj_example
 	1'b0,		// 35 latch_data
 	miso,		// 34 miso
 	1'b0,		// 33 mosi
-	1'b0,		// 32 sclk
-        1'b0,           // 31 ss_n 
+	1'b0,		// 32 ss_n
+        1'b0,           // 31 sclk 
  	driver_io[0],  	// 30
  	driver_io[1],  	// 29
  	driver_io[2],  	// 28
@@ -152,8 +152,8 @@ module user_proj_example
 	1'b1,			// 35 	latch_data 	: input
 	1'b0,			// 34 	miso 	   	: output
 	1'b1,			// 33 	mosi 	   	: input
-	1'b1,			// 32 	sclk 	   	: input
-	1'b1,			// 31 	ss_n 	   	: input
+	1'b1,			// 32 	ss_n 	   	: input
+	1'b1,			// 31 	sclk	   	: input
 	1'b0,			// 30	hbrige_0 	: output
 	1'b0,			// 29	hbrige_0 	: output
 	1'b0,			// 28	hbrige_0 	: output
@@ -192,12 +192,14 @@ module user_proj_example
 	assign control_trigger = (~la_oenb[65]) ? la_data_in[65] : io_in_reg[36]; 	  
 	assign latch_data      = (~la_oenb[66]) ? la_data_in[66] : io_in_reg[35];	
 	assign mosi 	       = (~la_oenb[67]) ? la_data_in[67] : io_in_reg[33];	
-	assign sclk 	       = (~la_oenb[68]) ? la_data_in[68] : io_in_reg[32];	
-	assign ss_n 	       = (~la_oenb[69]) ? la_data_in[69] : io_in_reg[31];  
+	assign ss_n 	       = (~la_oenb[68]) ? la_data_in[68] : io_in_reg[32];  
+	assign sclk 	       = (~la_oenb[69]) ? la_data_in[69] : io_in_reg[31];	
 
-  sequencer_chip user_design
+  sequencer_chip 
   #(
     .NUM_OF_DRIVERS (NUM_OF_DRIVERS)
+  )
+  user_design
   (
 `ifdef USE_POWER_PINS
      //.vccd1                 (vccd1                 ),	// User area 1 1.8V supply
