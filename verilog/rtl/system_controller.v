@@ -70,10 +70,11 @@ module system_controller
 
   always@(posedge clock)
   begin
-    case(reset_n)
+    /*case(reset_n)
       1'b1    : update_cmd <= latch_cmd;
       default : update_cmd <= 'b0;
-    endcase
+    endcase*/
+      update_cmd <= latch_cmd;
   end
 
 
@@ -96,23 +97,35 @@ module system_controller
 
   always@(posedge clock)
   begin
-    case({reset_n,cmd_section})
+    /*case({reset_n,cmd_section})
       3'b100   : write_config_n <= 1'b1;
       3'b101   : write_config_n <= 1'b1;
       3'b110   : write_config_n <= (update_cmd & ~mem_config_select) ? 1'b0 : 1'b1;
       3'b111   : write_config_n <= 1'b1;
       default  : write_config_n <= 1'b1; 
+    endcase*/
+    case(cmd_section)
+      2'b00   : write_config_n <= 1'b1;
+      2'b01   : write_config_n <= 1'b1;
+      2'b10   : write_config_n <= (update_cmd & ~mem_config_select) ? 1'b0 : 1'b1;
+      2'b11   : write_config_n <= 1'b1;
     endcase
   end
 
   always@(posedge clock)
   begin
-    case({reset_n,cmd_section})
+    /*case({reset_n,cmd_section})
       3'b100   : mask_select <= data_mask; 
       3'b101   : mask_select <= data_mask;
       3'b110   : mask_select <= 'b0;
       3'b111   : mask_select <= 'b0;
       default  : mask_select <= 'b0; 
+    endcase*/
+    case(cmd_section)
+      2'b00   : mask_select <= data_mask; 
+      2'b01   : mask_select <= data_mask;
+      2'b10   : mask_select <= 'b0;
+      2'b11   : mask_select <= 'b0;
     endcase
   end
 
@@ -122,32 +135,50 @@ module system_controller
     begin
       always@(posedge clock)
       begin
-        case({reset_n,cmd_section})
+        /*case({reset_n,cmd_section})
           3'b100   : mem_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1; 
           3'b101   : mem_write_n[I] <= 1'b1;
           3'b110   : mem_write_n[I] <= 1'b1;
           3'b111   : mem_write_n[I] <= 1'b1;
           default  : mem_write_n[I] <= 1'b1; 
+        endcase*/
+        case(cmd_section)
+          2'b00   : mem_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1; 
+          2'b01   : mem_write_n[I] <= 1'b1;
+          2'b10   : mem_write_n[I] <= 1'b1;
+          2'b11   : mem_write_n[I] <= 1'b1;
         endcase
       end
       always@(posedge clock)
       begin
-        case({reset_n,cmd_section})
+        /*case({reset_n,cmd_section})
           3'b100   : mem_dot_write_n[I] <=  1'b1;
           3'b101   : mem_dot_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1;
           3'b110   : mem_dot_write_n[I] <= 1'b1;
           3'b111   : mem_dot_write_n[I] <= 1'b1;
           default  : mem_dot_write_n[I] <= 1'b1; 
+        endcase*/
+        case(cmd_section)
+          2'b00   : mem_dot_write_n[I] <=  1'b1;
+          2'b01   : mem_dot_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1;
+          2'b10   : mem_dot_write_n[I] <= 1'b1;
+          2'b11   : mem_dot_write_n[I] <= 1'b1;
         endcase
       end
       always@(posedge clock)
       begin
-        case({reset_n,cmd_section})
+        /*case({reset_n,cmd_section})
           3'b100   : mem_sel_write_n[I] <= 1'b1;
           3'b101   : mem_sel_write_n[I] <= 1'b1;
           3'b110   : mem_sel_write_n[I] <= (I==sequencer_select) ? (update_cmd & mem_config_select) ? 1'b0 : 1'b1 : 1'b1;
           3'b111   : mem_sel_write_n[I] <= 1'b1;
           default  : mem_sel_write_n[I] <= 1'b1; 
+        endcase*/
+        case(cmd_section)
+          2'b00   : mem_sel_write_n[I] <= 1'b1;
+          2'b01   : mem_sel_write_n[I] <= 1'b1;
+          2'b10   : mem_sel_write_n[I] <= (I==sequencer_select) ? (update_cmd & mem_config_select) ? 1'b0 : 1'b1 : 1'b1;
+          2'b11   : mem_sel_write_n[I] <= 1'b1;
         endcase
       end
     end
