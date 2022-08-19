@@ -8,18 +8,14 @@ module dot_sequencer
 )
 (
   input   wire                            clock,
-  //input   wire                            reset_n,
   input   wire [2:0]                      mask_select,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_address,
-  input   wire [15:0]                     mem_data,
   input   wire                            mem_write_n,
-  input   wire [15:0]                     mem_dot_data,
   input   wire                            mem_dot_write_n,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   row_select,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   col_select,
-  //input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_row_address,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_col_address,
-  input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_sel_data,
+  input   wire [15:0]                     data_in,
   input   wire                            mem_sel_write_n,
   input   wire                            row_col_select,
   output  wire                            firing_data,
@@ -50,7 +46,7 @@ module dot_sequencer
       begin
         case(mem_sel_write_n)
           1'b1   : mem_sel[J] <= mem_sel[J];
-          1'b0   : mem_sel[J] <= (mem_sel_col_address == J) ? mem_sel_data : mem_sel[J];
+          1'b0   : mem_sel[J] <= (mem_sel_col_address == J) ? data_in[MEM_ADDRESS_LENGTH-1:0] : mem_sel[J];
         endcase
       end
     end
@@ -70,7 +66,7 @@ module dot_sequencer
         begin
           case(mem_write_n)
             1'b1   : mem[I][J*16+15:J*16] <= mem[I][J*16+15:J*16];
-            1'b0   : mem[I][J*16+15:J*16] <= (I==mem_address) & (J==mask_select) ? mem_data : mem[I][J*16+15:J*16] ;
+            1'b0   : mem[I][J*16+15:J*16] <= (I==mem_address) & (J==mask_select) ? data_in : mem[I][J*16+15:J*16] ;
           endcase
         end
       end
@@ -89,7 +85,7 @@ module dot_sequencer
       begin
         case(mem_dot_write_n)
           1'b1   : mem_dot[J*16+15:J*16] <= mem_dot[J*16+15:J*16];
-          1'b0   : mem_dot[J*16+15:J*16] <= (J==mask_select) ? mem_dot_data : mem_dot[J*16+15:J*16];
+          1'b0   : mem_dot[J*16+15:J*16] <= (J==mask_select) ? data_in : mem_dot[J*16+15:J*16];
         endcase
       end
     end

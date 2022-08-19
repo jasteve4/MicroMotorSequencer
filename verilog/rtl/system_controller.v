@@ -24,16 +24,17 @@ module system_controller
   output reg          write_config_n,
   output reg [2:0]    mask_select,
  
-  output wire [15:0]  mem_data,             
+  //output wire [15:0]  mem_data,             
   output wire [6:0]   mem_address,          
-  output wire [15:0]  mem_dot_data,         
+  //output wire [15:0]  mem_dot_data,         
                        
-  output wire [15:0]  config_data,          
+  //output wire [15:0]  config_data,          
   output wire [5:0]   config_address,       
                        
-  output wire [7:0]   mem_sel_data,         
+  //output wire [7:0]   mem_sel_data,         
   output wire [6:0]   mem_sel_col_address,  
   //output wire [6:0]   mem_sel_row_address,
+  output wire [15:0]  data_out,          
 
   output reg          timer_enable,
   input wire          update_cycle_complete
@@ -82,15 +83,16 @@ module system_controller
   assign cmd_section          = cmd[31:30];
   assign data_mask            = cmd[25:23]; // 3 bits for mask
 
-  assign mem_data             = cmd[15:0];  // 16 bits for mem data
+  assign data_out             = cmd[15:0];
+  //assign mem_data             = cmd[15:0];  // 16 bits for mem data
   assign mem_address          = cmd[22:16]; // 7 bits for address
 
-  assign mem_dot_data         = cmd[15:0];  // 16 bits for dot data
+  //assign mem_dot_data         = cmd[15:0];  // 16 bits for dot data
 
-  assign config_data          = cmd[15:0];  // 16 bits for config data
+  //assign config_data          = cmd[15:0];  // 16 bits for config data
   assign config_address       = cmd[21:16]; // 6 bits for address
 
-  assign mem_sel_data         = cmd[7:0];   // 8 bits for sequence data
+  //assign mem_sel_data         = cmd[7:0];   // 8 bits for sequence data
   assign mem_sel_col_address  = cmd[14:8];  // 7 bits for col address
   //assign mem_sel_row_address  = cmd[21:15]; // 7 bits for row address
   assign mem_config_select    = cmd[22];
