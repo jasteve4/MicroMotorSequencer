@@ -8,7 +8,7 @@ module dot_sequencer
 )
 (
   input   wire                            clock,
-  input   wire                            reset_n,
+  //input   wire                            reset_n,
   input   wire [2:0]                      mask_select,
   input   wire [MEM_ADDRESS_LENGTH-1:0]   mem_address,
   input   wire [15:0]                     mem_data,
@@ -38,12 +38,19 @@ module dot_sequencer
   generate
     for(J=0;J<MEM_LENGTH;J=J+1)
     begin
-      always@(posedge clock)
+      /*always@(posedge clock)
       begin
         case({reset_n,mem_sel_write_n})
           2'b11   : mem_sel[J] <= mem_sel[J];
           2'b10   : mem_sel[J] <= (mem_sel_col_address == J) ? mem_sel_data : mem_sel[J];
           default : mem_sel[J] <= 'b0;
+        endcase
+      end*/
+      always@(posedge clock)
+      begin
+        case(mem_sel_write_n)
+          1'b1   : mem_sel[J] <= mem_sel[J];
+          1'b0   : mem_sel[J] <= (mem_sel_col_address == J) ? mem_sel_data : mem_sel[J];
         endcase
       end
     end
@@ -51,24 +58,38 @@ module dot_sequencer
     begin
       for(I=0;I<MEM_LENGTH;I=I+1)
       begin
-        always@(posedge clock)
+        /*always@(posedge clock)
         begin
           case({reset_n,mem_write_n})
             2'b11   : mem[I][J*16+15:J*16] <= mem[I][J*16+15:J*16];
             2'b10   : mem[I][J*16+15:J*16] <= (I==mem_address) & (J==mask_select) ? mem_data : mem[I][J*16+15:J*16] ;
             default : mem[I][J*16+15:J*16] <= 'b0;
           endcase
+        end*/
+        always@(posedge clock)
+        begin
+          case(mem_write_n)
+            1'b1   : mem[I][J*16+15:J*16] <= mem[I][J*16+15:J*16];
+            1'b0   : mem[I][J*16+15:J*16] <= (I==mem_address) & (J==mask_select) ? mem_data : mem[I][J*16+15:J*16] ;
+          endcase
         end
       end
     end
     for(J=0;J<$ceil(MEM_LENGTH/16);J=J+1)
     begin
-      always@(posedge clock)
+      /*always@(posedge clock)
       begin
         case({reset_n,mem_dot_write_n})
           2'b11   : mem_dot[J*16+15:J*16] <= mem_dot[J*16+15:J*16];
           2'b10   : mem_dot[J*16+15:J*16] <= (J==mask_select) ? mem_dot_data : mem_dot[J*16+15:J*16];
           default : mem_dot[J*16+15:J*16] <= 'b0;
+        endcase
+      end*/
+      always@(posedge clock)
+      begin
+        case(mem_dot_write_n)
+          1'b1   : mem_dot[J*16+15:J*16] <= mem_dot[J*16+15:J*16];
+          1'b0   : mem_dot[J*16+15:J*16] <= (J==mask_select) ? mem_dot_data : mem_dot[J*16+15:J*16];
         endcase
       end
     end

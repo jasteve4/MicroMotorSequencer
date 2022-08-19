@@ -22,3 +22,20 @@ module impulse(
   assign advance = impulse_gen == 2'b01;
 
 endmodule
+
+module impulse_no_reset(
+  input clock,
+  input trigger,
+  output advance
+);
+
+  reg [1:0] impulse_gen;
+
+  always@(posedge clock)
+  begin
+    impulse_gen <= {impulse_gen[0],trigger};
+  end
+
+  assign advance = impulse_gen == 2'b01;
+
+endmodule

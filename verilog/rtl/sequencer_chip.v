@@ -78,7 +78,7 @@ module sequencer_chip
   u1
   (
     .clock                    (clock                 ),
-    .reset_n                  (reset_n               ),
+//    .reset_n                  (reset_n               ),
     .timer_enable             (timer_enable          ),
     .write_config_n           (write_config_n        ),
     .config_address           (config_address        ),
@@ -111,7 +111,7 @@ module sequencer_chip
       u2
       (
         .clock                (clock                                        ),
-        .reset_n              (reset_n                                      ),
+        //.reset_n              (reset_n                                      ),
         .mask_select          (mask_select                                  ),
         .mem_address          (mem_address         [MEM_ADDRESS_LENGTH-1:0] ),
         .mem_data             (mem_data                                     ),
@@ -131,7 +131,7 @@ module sequencer_chip
 
       dot_driver u3(          
         .clock                (clock                ),
-        .reset_n              (reset_n              ),
+        //.reset_n              (reset_n              ),
         .dot_enable           (firing_bit           ),
         .output_enable        (output_active        ),
         .dot_state            (firing_data          ),
