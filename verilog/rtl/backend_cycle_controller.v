@@ -13,7 +13,7 @@ module backend_cycle_controller
   input  wire [15:0]                    config_data,
   output wire [MEM_ADDRESS_LENGTH-1:0]  row_select,
   output wire [MEM_ADDRESS_LENGTH-1:0]  col_select,
-  output wire                           output_active,
+  output reg                           output_active,
   output reg  [NUM_OF_DRIVERS-1:0]      inverter_select,
   output reg  [NUM_OF_DRIVERS-1:0]      row_col_select,
   output wire                           update_cycle_complete
@@ -138,13 +138,16 @@ module backend_cycle_controller
   begin
     case({reset_n,timer_enable})
       2'b11   : timer <= (timer <= ccr1) ? timer +1'b1 : 32'b0;
-      default : timer <= ccr1;
+      default : timer <= 'b0;
     endcase
   end
   
   assign ccr0_flag = timer == ccr0;
-  assign ccr1_flag = timer == ccr1;
-  assign output_active = timer <= ccr0 && timer != 32'b0;
+  assign ccr1_flag = timer == ccr1 && timer_enable;
+  always@(posedge clock)
+  begin
+     output_active <= (timer <= ccr0) && timer != 32'b0 && !update_cycle_complete;
+   end
 
   impulse u1 (clock,reset_n,ccr1_flag,advance);
 

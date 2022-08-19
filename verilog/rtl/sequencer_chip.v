@@ -94,7 +94,7 @@ module sequencer_chip
 
   genvar I,J;
   generate
-    for(I=0;I<16;I=I+1)
+    for(I=0;I<NUM_OF_DRIVERS;I=I+1)
     begin
       wire firing_bit;
       wire firing_data;
