@@ -26,8 +26,12 @@ source $::env(DESIGN_DIR)/fixed_dont_change/fixed_wrapper_cfgs.tcl
 source $::env(DESIGN_DIR)/fixed_dont_change/default_wrapper_cfgs.tcl
 
 set script_dir [file dirname [file normalize [info script]]]
+set proj_dir [file dirname [file normalize [info script]]]
 
 set ::env(DESIGN_NAME) user_project_wrapper
+set verilog_root $::env(DESIGN_DIR)/../../verilog/
+set lef_root $::env(DESIGN_DIR)/../../lef/
+set gds_root $::env(DESIGN_DIR)/../../gds/
 #section end
 
 # User Configurations
@@ -35,32 +39,43 @@ set ::env(DESIGN_NAME) user_project_wrapper
 ## Source Verilog Files
 set ::env(VERILOG_FILES) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/user_project_wrapper.v"
+	$script_dir/../../verilog/rtl/user_project_macro_wrapper.v"
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-set ::env(CLOCK_NET) "mprj.clk"
+#set ::env(CLOCK_NET) "mprj.clock"
 
-set ::env(CLOCK_PERIOD) "10"
-
-## Internal Macros
-### Macro PDN Connections
-set ::env(FP_PDN_MACRO_HOOKS) "\
-	mprj vccd1 vssd1 vccd1 vssd1"
+set ::env(CLOCK_PERIOD) "20"
 
 ### Macro Placement
 set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 
+## Internal Macros
+### Macro PDN Connections
+#set ::env(FP_PDN_MACRO_HOOKS) "\
+	mprj vccd1 vssd1 vccd1 vssd1"
+
+#set ::env(SDC_FILE) $::env(DESIGN_DIR)/base.sdc
+#set ::env(BASE_SDC_FILE) $::env(DESIGN_DIR)/base.sdc
+
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/user_proj_example.v"
+	$::env(DESIGN_DIR)/../../verilog/gl/controller_unit.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/driver_core.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/driver_core_mirror.v"
 
 set ::env(EXTRA_LEFS) "\
-	$script_dir/../../lef/user_proj_example.lef"
+	$::env(DESIGN_DIR)/../../lef/controller_unit.lef \
+	$::env(DESIGN_DIR)/../../lef/driver_core.lef \
+	$::env(DESIGN_DIR)/../../lef/driver_core_mirror.lef"
 
 set ::env(EXTRA_GDS_FILES) "\
-	$script_dir/../../gds/user_proj_example.gds"
+	$::env(DESIGN_DIR)/../../gds/controller_unit.gds \
+	$::env(DESIGN_DIR)/../../gds/driver_core.gds \
+	$::env(DESIGN_DIR)/../../gds/driver_core_mirror.gds"
+
+set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
 # set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}
@@ -69,20 +84,55 @@ set ::env(RT_MAX_LAYER) {met4}
 # any issue with pdn connections will be flagged with LVS so it is not a critical check.
 set ::env(FP_PDN_CHECK_NODES) 0
 
-# The following is because there are no std cells in the example wrapper project.
-set ::env(SYNTH_TOP_LEVEL) 1
-set ::env(PL_RANDOM_GLB_PLACEMENT) 1
+## Internal Macros
+### Macro PDN Connections
+set ::env(FP_PDN_ENABLE_MACROS_GRID) "1"
+#set ::env(FP_PDN_ENABLE_GLOBAL_CONNECTIONS) "1"
 
+
+set ::env(FP_PDN_MACRO_HOOKS) " \
+	 controller_unit_mod    vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_0   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_1   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_2   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_3   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_4   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_5   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_6   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_7   	vccd1 vssd1 vccd1 vssd1 \
+      	"
+
+
+
+
+# The following is because there are no std cells in the example wrapper project.
+set ::env(SYNTH_TOP_LEVEL) 0
+set ::env(PL_RANDOM_GLB_PLACEMENT) 1
 set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_TIMING_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_BUFFER_INPUT_PORTS) 0
 set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) 0
-
 set ::env(FP_PDN_ENABLE_RAILS) 0
-
 set ::env(DIODE_INSERTION_STRATEGY) 0
 set ::env(FILL_INSERTION) 0
 set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
+set ::env(QUIT_ON_LVS_ERROR) "1"
+set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_NEGATIVE_WNS) "0"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
+set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
+
+set ::env(FP_PDN_IRDROP) "1"
+set ::env(FP_PDN_HORIZONTAL_HALO) "10"
+set ::env(FP_PDN_VERTICAL_HALO) "10"
+
+#
+
+set ::env(FP_PDN_VOFFSET) "5"
+set ::env(FP_PDN_VPITCH) "180"
+set ::env(FP_PDN_HOFFSET) "5"
+set ::env(FP_PDN_HPITCH) "180"
+
 
 

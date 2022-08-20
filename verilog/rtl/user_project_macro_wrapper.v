@@ -202,12 +202,16 @@ module user_project_wrapper #(
 
   controller_unit
   #(
-    .MEM_LENGTH                     (MEM_LENGTH                    ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH            ),
-    .NUM_OF_DRIVERS                 (NUM_OF_DRIVERS                )
+    //.MEM_LENGTH                     (MEM_LENGTH                    ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH            ),
+    //.NUM_OF_DRIVERS                 (NUM_OF_DRIVERS                )
   )
   controller_unit_mod
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     
     .la_data_in                      (la_data_in                    ),
     //.la_data_out                     (la_data_out                   ),
@@ -242,17 +246,20 @@ module user_project_wrapper #(
     .row_col_select                  (row_col_select                ),
     .output_active                   (output_active                 ),
     .inverter_select                 (inverter_select               )
-     
   );
 
   driver_core
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_0
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -273,11 +280,15 @@ module user_project_wrapper #(
   driver_core
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_1
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -298,11 +309,15 @@ module user_project_wrapper #(
   driver_core
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_2
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -323,11 +338,15 @@ module user_project_wrapper #(
   driver_core
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_3
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -345,14 +364,18 @@ module user_project_wrapper #(
     .driver_io                      (driver_io[7:6]               )
   );
 
-  driver_core
+  driver_core_mirror
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_4
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -370,14 +393,18 @@ module user_project_wrapper #(
     .driver_io                      (driver_io[9:8]               )
   );
 
-  driver_core
+  driver_core_mirror
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_5
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -395,14 +422,18 @@ module user_project_wrapper #(
     .driver_io                      (driver_io[11:10]             )
   );
 
-  driver_core
+  driver_core_mirror
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_6
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),
@@ -420,14 +451,18 @@ module user_project_wrapper #(
     .driver_io                      (driver_io[13:12]             )
   );
 
-  driver_core
+  driver_core_mirror
   #(
 
-    .MEM_LENGTH                     (MEM_LENGTH                   ),
-    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+    //.MEM_LENGTH                     (MEM_LENGTH                   ),
+    //.MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
   )
   driver_core_7
   (
+`ifdef USE_POWER_PINS
+     .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
+     .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
+`endif
     .clock                          (user_clock2                  ),
     .clock_a                        (user_clock2                  ),
     .mask_select_a                  (mask_select                  ),

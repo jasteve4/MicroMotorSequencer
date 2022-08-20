@@ -106,44 +106,44 @@ module user_proj_example
     //  28 decated pins
 
     assign user_data_out = {
-	1'b0,		// 37 enable_n
-	1'b0,		// 36 control_trigger
-	1'b0,		// 35 latch_data
-	miso,		// 34 miso
-	1'b0,		// 33 mosi
-	1'b0,		// 32 ss_n
-        1'b0,           // 31 sclk 
- 	driver_io[0],  	// 30
- 	driver_io[1],  	// 29
- 	driver_io[2],  	// 28
- 	driver_io[3],  	// 27
- 	driver_io[4],  	// 26
- 	driver_io[5],  	// 25
- 	driver_io[6],  	// 24
- 	driver_io[7],  	// 23
- 	driver_io[8],  	// 22
- 	driver_io[9],  	// 21
- 	driver_io[10], 	// 20
- 	driver_io[11], 	// 19
- 	driver_io[12], 	// 18
- 	driver_io[13], 	// 17
- 	driver_io[14], 	// 16
- 	driver_io[15], 	// 15
-	1'b0,		// 14	user_control_enable_6
-	1'b0,		// 13	user_control_enable_5
-	1'b0,		// 12	user_control_enable_4
-	1'b0,		// 11   user_control_enable_3
-	1'b0,		// 10	flash2_io  / user_control_enable_2
-	1'b0,		// 9	flash2_io  / user_control_enable_1
-	1'b0,		// 8	flash2_csb / user_control_enable_0
-	1'b0,		// 7	irq
-	1'b0,		// 6	ser_tx
-	1'b0,		// 5	ser_rx
-	1'b0,		// 4	SCK
-	1'b0,		// 3	CSB
-	1'b0,		// 2	SDI
-	1'b0,		// 1	SDO  / CPU_TO_IO
-	1'b0		// 0   	JTAG / IO_TO_CPU
+	1'b0,			// 37 enable_n
+	1'b0,			// 36 control_trigger
+	1'b0,			// 35 latch_data
+	miso,			// 34 miso
+	1'b0,			// 33 mosi
+	1'b0,			// 32 ss_n
+        1'b0,			// 31 sclk 
+ 	driver_io[0],		// 30
+ 	driver_io[1],		// 29
+ 	driver_io[2],		// 28
+ 	driver_io[3],		// 27
+ 	driver_io[4],		// 26
+ 	driver_io[5],		// 25
+ 	driver_io[6],		// 24
+ 	driver_io[7],		// 23
+ 	driver_io[8],		// 22
+ 	driver_io[9],		// 21
+ 	driver_io[10],		// 20
+ 	driver_io[11],		// 19
+ 	driver_io[12],		// 18
+ 	driver_io[13],		// 17
+ 	driver_io[14],		// 16
+ 	driver_io[15],		// 15
+	1'b0,			// 14	user_control_enable_6
+	1'b0,			// 13	user_control_enable_5
+	1'b0,			// 12	user_control_enable_4
+	1'b0,			// 11   user_control_enable_3
+	update_cycle_complete,	// 10	flash2_io  / user_control_enable_2
+	1'b0,			// 9	flash2_io  / user_control_enable_1
+	1'b0,			// 8	flash2_csb / user_control_enable_0
+	1'b0,			// 7	irq
+	1'b0,			// 6	ser_tx
+	1'b0,			// 5	ser_rx
+	1'b0,			// 4	SCK
+	1'b0,			// 3	CSB
+	1'b0,			// 2	SDI
+	1'b0,			// 1	SDO  / CPU_TO_IO
+	1'b0			// 0   	JTAG / IO_TO_CPU
 	};
 
     assign user_data_oeb = {
@@ -174,7 +174,7 @@ module user_proj_example
 	1'b1,			// 13	user_control_enable_5
 	1'b1,			// 12	user_control_enable_4
 	1'b1,			// 11   user_control_enable_3
-	1'b1,			// 10	flash2_io  / user_control_enable_2
+	1'b0,			// 10	flash2_io  / user_control_enable_2
 	1'b1,			// 9	flash2_io  / user_control_enable_1
 	1'b1,			// 8	flash2_csb / user_control_enable_0
 	1'b1,			// 7	irq
@@ -191,6 +191,8 @@ module user_proj_example
 	assign reset_n         = (~la_oenb[64]) ? la_data_in[64] : io_in_reg[37]; 
 	assign control_trigger = (~la_oenb[65]) ? la_data_in[65] : io_in_reg[36]; 	  
 	assign latch_data      = (~la_oenb[66]) ? la_data_in[66] : io_in_reg[35];	
+	//					                   io_in_reg[34];	
+	//assign mosi 	       = (~la_oenb[67]) ? la_data_in[67] : io_in_reg[33];	
 	assign mosi 	       = (~la_oenb[67]) ? la_data_in[67] : io_in_reg[33];	
 	assign ss_n 	       = (~la_oenb[68]) ? la_data_in[68] : io_in_reg[32];  
 	assign sclk 	       = (~la_oenb[69]) ? la_data_in[69] : io_in_reg[31];	
@@ -214,7 +216,7 @@ module user_proj_example
     .sclk                   (sclk                  ),
     .mosi                   (mosi                  ),
     .ss_n                   (ss_n                  ),
-    .miso                   (mosi                  )
+    .miso                   (miso                  )
   );
 
 endmodule
