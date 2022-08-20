@@ -30,27 +30,28 @@ set ::env(VERILOG_FILES) "\
 
 
 
-
+set ::env(ROUTING_CORES) 8
 
 set ::env(DESIGN_IS_CORE) 0
 
 set ::env(CLOCK_PORT) "clock"
-set ::env(CLOCK_NET) "clock"
-set ::env(CLOCK_PERIOD) "20"
+set ::env(CLOCK_NET) "clock clock_out\[0\] clock_out\[1\] clock_out\[2\] clock_out\[3\] clock_out\[4\] clock_out\[5\] clock_out\[6\] clock_out\[7\]"
+#set ::env(CLOCK_NET) "clock "
+set ::env(CLOCK_PERIOD) "17"
 
 set ::env(SYNTH_MAX_FANOUT) 10
 set ::env(CLOCK_BUFFER_FANOUT) 10
 set ::env(CTS_CLK_MAX_WIRE_LENGTH)  40
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 set ::env(CTS_SINK_CLUSTERING_SIZE) 10
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 550 250"
+set ::env(DIE_AREA) "0 0 1400 140"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
 set ::env(PL_TARGET_DENSITY) 0.20
-set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 
 set ::env(FP_CORE_UTIL) 10
 set ::env(FP_IO_VEXTEND) 4
@@ -63,6 +64,8 @@ set ::env(FP_PDN_HWIDTH) 5
 
 set ::env(GLB_RESIZER_MAX_WIRE_LENGTH) 40
 
+#set ::env(SDC_FILE) $::env(DESIGN_DIR)/base.sdc
+#set ::env(BASE_SDC_FILE) $::env(DESIGN_DIR)/base.sdc
 
 #set ::env(CTS_CLK_BUFFER_LIST) {sky130_fd_sc_hd__clkbuf_8 sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_2};
 #set ::env(CTS_DISABLE_POST_PROCESSING) 1

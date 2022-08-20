@@ -29,6 +29,7 @@ set ::env(VERILOG_FILES) "\
 	$script_dir/../../verilog/rtl/HBrigeDriver.v \
 	$script_dir/../../verilog/rtl/impulse.v"
 
+set ::env(ROUTING_CORES) 8
 
 set ::env(DESIGN_IS_CORE) 0
 

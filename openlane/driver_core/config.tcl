@@ -29,6 +29,7 @@ set ::env(VERILOG_FILES) "\
 	$script_dir/../../verilog/rtl/HBrigeDriver.v \
 	$script_dir/../../verilog/rtl/impulse.v"
 
+set ::env(ROUTING_CORES) 8
 
 set ::env(DESIGN_IS_CORE) 0
 
@@ -38,17 +39,17 @@ set ::env(CLOCK_PERIOD) "20"
 
 set ::env(SYNTH_MAX_FANOUT) 10
 set ::env(CLOCK_BUFFER_FANOUT) 10
-set ::env(CTS_CLK_MAX_WIRE_LENGTH)  40
-set ::env(CTS_SINK_CLUSTERING_SIZE) 10
+set ::env(CTS_CLK_MAX_WIRE_LENGTH)  35
+set ::env(CTS_SINK_CLUSTERING_SIZE) 8
+set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1100 550"
+set ::env(DIE_AREA) "0 0 1200 600"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
-set ::env(PL_TARGET_DENSITY) 0.23
+set ::env(PL_TARGET_DENSITY) 0.21
 
 set ::env(FP_CORE_UTIL) 10
 set ::env(FP_IO_VEXTEND) 4

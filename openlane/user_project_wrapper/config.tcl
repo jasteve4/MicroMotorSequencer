@@ -43,7 +43,7 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-#set ::env(CLOCK_NET) "mprj.clock"
+set ::env(CLOCK_NET) "controller_unit_mod.clock_out\[0\] controller_unit_mod.clock_out\[1\] controller_unit_mod.clock_out\[2\] controller_unit_mod.clock_out\[3\] clock_out\[4\] clock_out\[5\] clock_out\[6\] clock_out\[7\]"
 
 set ::env(CLOCK_PERIOD) "20"
 
@@ -80,6 +80,9 @@ set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 # set ::env(GLB_RT_MAXLAYER) 5
 set ::env(RT_MAX_LAYER) {met4}
 
+
+set ::env(ROUTING_CORES) 8
+
 # disable pdn check nodes becuase it hangs with multiple power domains.
 # any issue with pdn connections will be flagged with LVS so it is not a critical check.
 set ::env(FP_PDN_CHECK_NODES) 0
@@ -102,11 +105,11 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 	 driver_core_7   	vccd1 vssd1 vccd1 vssd1 \
       	"
 
-
+#set ::env(LVS_CONNECT_BY_LABEL) 1
 
 
 # The following is because there are no std cells in the example wrapper project.
-set ::env(SYNTH_TOP_LEVEL) 0
+set ::env(SYNTH_TOP_LEVEL) 1
 set ::env(PL_RANDOM_GLB_PLACEMENT) 1
 set ::env(PL_RESIZER_DESIGN_OPTIMIZATIONS) 0
 set ::env(PL_RESIZER_TIMING_OPTIMIZATIONS) 0
@@ -117,7 +120,7 @@ set ::env(DIODE_INSERTION_STRATEGY) 0
 set ::env(FILL_INSERTION) 0
 set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
-set ::env(QUIT_ON_LVS_ERROR) "1"
+set ::env(QUIT_ON_LVS_ERROR) "0"
 set ::env(QUIT_ON_MAGIC_DRC) "0"
 set ::env(QUIT_ON_NEGATIVE_WNS) "0"
 set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"

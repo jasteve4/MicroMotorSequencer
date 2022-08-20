@@ -6,3 +6,12 @@
 *.lst
 *.vcd
 *.gtkw
+*.gds
+*.swp
+*.swo
+*.spice
+*.def
+*.lef
+*.mag
+*.swm
+*.csv

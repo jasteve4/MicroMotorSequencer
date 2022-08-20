@@ -112,21 +112,35 @@ module user_project_wrapper #(
     wire [NUM_OF_DRIVERS*2-1:0] driver_io;
 
 
+    wire  [NUM_OF_DRIVERS-1:0]     mem_write_n;
+    wire  [NUM_OF_DRIVERS-1:0]     mem_dot_write_n;
+  // clock fanout reduction
+  
+    wire [NUM_OF_DRIVERS-1:0] clock_out
 
-    wire [2:0]                 mask_select;
-    wire [6:0]                 mem_address_out;
-    wire [5:0]                 mem_address;
-    wire [NUM_OF_DRIVERS-1:0]  mem_write_n;
-    wire [NUM_OF_DRIVERS-1:0]  mem_dot_write_n;
-    wire [MEM_ADDRESS_LENGTH-1:0]   row_select;
-    wire [MEM_ADDRESS_LENGTH-1:0]   col_select;
-    wire [6:0]                 mem_sel_col_address_out;
-    wire [5:0]                 mem_sel_col_address;
-    wire [15:0]                data_out;
-    wire [NUM_OF_DRIVERS-1:0]  mem_sel_write_n;
-    wire [NUM_OF_DRIVERS-1:0]  row_col_select;
-    wire                       output_active;
-    wire [NUM_OF_DRIVERS-1:0]  inverter_select;
+    wire  [2:0]                    mask_select_right;
+    wire  [2:0]                    mask_select_left;
+    wire  [6:0]                    mem_address_right;
+    wire  [6:0]                    mem_address_left;
+    wire  [5:0]                    mem_address_right;
+    wire  [NUM_OF_DRIVERS-1:0]     mem_write_n;
+    wire  [NUM_OF_DRIVERS-1:0]     mem_dot_write_n;
+    wire  [MEM_ADDRESS_LENGTH-1:0] row_select_right;
+    wire  [MEM_ADDRESS_LENGTH-1:0] row_select_left;
+    wire  [MEM_ADDRESS_LENGTH-1:0] col_select_right;
+    wire  [MEM_ADDRESS_LENGTH-1:0] col_select_left;
+    wire  [6:0]                    mem_sel_col_address_right;
+    wire  [6:0]                    mem_sel_col_address_left;
+    wire  [15:0]                   data_out_right;
+    wire  [15:0]                   data_out_left;
+    wire  [6:0]                    mem_sel_col_address_right;
+    wire  [6:0]                    mem_sel_col_address_left;
+    wire  [15:0]                   data_out_right;
+    wire  [15:0]                   data_out_left;
+    wire                           output_active_right;
+    wire                           output_active_left;
+    wire [NUM_OF_DRIVERS-1:0]      inverter_select;
+    wire [NUM_OF_DRIVERS-1:0]      clock_out;
 
     assign mem_address = mem_address_out[5:0];
     assign mem_sel_col_address = mem_sel_col_address_out[5:0];
@@ -234,18 +248,27 @@ module user_project_wrapper #(
     .io_ss_n_oeb                     (io_ss_n_oeb                   ),
     .io_miso_out                     (io_miso_out                   ),
     .io_miso_oeb                     (io_miso_oeb                   ),
-    .mask_select                     (mask_select                   ),
-    .mem_address                     (mem_address_out               ),
-    .mem_write_n                     (mem_write_n                   ),
-    .mem_dot_write_n                 (mem_dot_write_n               ),
-    .row_select                      (row_select                    ),
-    .col_select                      (col_select                    ),
-    .mem_sel_col_address             (mem_sel_col_address_out       ),
-    .data_out                        (data_out                      ),
-    .mem_sel_write_n                 (mem_sel_write_n               ),
-    .row_col_select                  (row_col_select                ),
-    .output_active                   (output_active                 ),
-    .inverter_select                 (inverter_select               )
+
+    .mask_select_right               (mask_select_right             ),                
+    .mask_select_left                (mask_select_left              ),              
+    .mem_address_right               (mem_address_right             ),               
+    .mem_address_left                (mem_address_left              ),              
+    .mem_write_n                     (mem_write_n                   ),         
+    .mem_dot_write_n                 (mem_dot_write_n               ),             
+    .row_select_right                (row_select_right              ),              
+    .row_select_left                 (row_select_left               ),             
+    .col_select_right                (col_select_right              ),              
+    .col_select_left                 (col_select_left               ),             
+    .mem_sel_col_address_right       (mem_sel_col_address_right     ),                       
+    .mem_sel_col_address_left        (mem_sel_col_address_left      ),                      
+    .data_out_right                  (data_out_right                ),            
+    .data_out_left                   (data_out_left                 ),           
+    .mem_sel_write_n                 (mem_sel_write_n               ),             
+    .row_col_select                  (row_col_select                ),            
+    .output_active_right             (output_active_right           ),                 
+    .output_active_left              (output_active_left            ),                
+    .inverter_select                 (inverter_select               ),             
+    .clock_out                       (clock_out                     )
   );
 
   driver_core
@@ -260,19 +283,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[0]                 ),
+    .clock_a                        (clock_out[0]                 ),
+    .mask_select_a                  (mask_select_left             ),
+    .mem_address_a                  (mem_address_left             ),
     .mem_write_n_a                  (mem_write_n[0]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[0]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_left              ),
+    .col_select_a                   (col_selecti_left             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_left     ),
+    .data_in_a                      (data_out_left                ),
     .mem_sel_write_n_a              (mem_sel_write_n[0]           ),
     .row_col_select_a               (row_col_select[0]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_left           ),
     .inverter_select_a              (inverter_select[0]           ),
     .driver_io                      (driver_io[1:0]               )
   );
@@ -289,19 +312,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[1]                 ),
+    .clock_a                        (clock_out[1]                 ),
+    .mask_select_a                  (mask_select_left             ),
+    .mem_address_a                  (mem_address_left             ),
     .mem_write_n_a                  (mem_write_n[1]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[1]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_left              ),
+    .col_select_a                   (col_selecti_left             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_left     ),
+    .data_in_a                      (data_out_left                ),
     .mem_sel_write_n_a              (mem_sel_write_n[1]           ),
     .row_col_select_a               (row_col_select[1]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_left           ),
     .inverter_select_a              (inverter_select[1]           ),
     .driver_io                      (driver_io[3:2]               )
   );
@@ -318,19 +341,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[2]                 ),
+    .clock_a                        (clock_out[2]                 ),
+    .mask_select_a                  (mask_select_left             ),
+    .mem_address_a                  (mem_address_left             ),
     .mem_write_n_a                  (mem_write_n[2]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[2]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_left              ),
+    .col_select_a                   (col_selecti_left             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_left     ),
+    .data_in_a                      (data_out_left                ),
     .mem_sel_write_n_a              (mem_sel_write_n[2]           ),
     .row_col_select_a               (row_col_select[2]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_left           ),
     .inverter_select_a              (inverter_select[2]           ),
     .driver_io                      (driver_io[5:4]               )
   );
@@ -347,19 +370,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[3]                 ),
+    .clock_a                        (clock_out[3]                 ),
+    .mask_select_a                  (mask_select_left             ),
+    .mem_address_a                  (mem_address_left             ),
     .mem_write_n_a                  (mem_write_n[3]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[3]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_left              ),
+    .col_select_a                   (col_selecti_left             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_left     ),
+    .data_in_a                      (data_out_left                ),
     .mem_sel_write_n_a              (mem_sel_write_n[3]           ),
     .row_col_select_a               (row_col_select[3]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_left           ),
     .inverter_select_a              (inverter_select[3]           ),
     .driver_io                      (driver_io[7:6]               )
   );
@@ -376,19 +399,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[4]                 ),
+    .clock_a                        (clock_out[4]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right             ),
     .mem_write_n_a                  (mem_write_n[4]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[4]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_selecti_right             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right     ),
+    .data_in_a                      (data_out_right                ),
     .mem_sel_write_n_a              (mem_sel_write_n[4]           ),
     .row_col_select_a               (row_col_select[4]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_right           ),
     .inverter_select_a              (inverter_select[4]           ),
     .driver_io                      (driver_io[9:8]               )
   );
@@ -405,19 +428,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[5]                 ),
+    .clock_a                        (clock_out[5]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right             ),
     .mem_write_n_a                  (mem_write_n[5]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[5]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_selecti_right             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right     ),
+    .data_in_a                      (data_out_right                ),
     .mem_sel_write_n_a              (mem_sel_write_n[5]           ),
     .row_col_select_a               (row_col_select[5]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_right           ),
     .inverter_select_a              (inverter_select[5]           ),
     .driver_io                      (driver_io[11:10]             )
   );
@@ -434,19 +457,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[6]                 ),
+    .clock_a                        (clock_out[6]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right             ),
     .mem_write_n_a                  (mem_write_n[6]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[6]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_selecti_right             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right     ),
+    .data_in_a                      (data_out_right                ),
     .mem_sel_write_n_a              (mem_sel_write_n[6]           ),
     .row_col_select_a               (row_col_select[6]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_right           ),
     .inverter_select_a              (inverter_select[6]           ),
     .driver_io                      (driver_io[13:12]             )
   );
@@ -463,19 +486,19 @@ module user_project_wrapper #(
      .vccd1                          (vccd1                        ),	// User area 1 1.8V supply
      .vssd1                          (vssd1                        ),	// User area 1 1.8V supply
 `endif
-    .clock                          (user_clock2                  ),
-    .clock_a                        (user_clock2                  ),
-    .mask_select_a                  (mask_select                  ),
-    .mem_address_a                  (mem_address                  ),
+    .clock                          (clock_out[7]                 ),
+    .clock_a                        (clock_out[7]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right             ),
     .mem_write_n_a                  (mem_write_n[7]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[7]           ),
-    .row_select_a                   (row_select                   ),
-    .col_select_a                   (col_select                   ),
-    .mem_sel_col_address_a          (mem_sel_col_address          ),
-    .data_in_a                      (data_out                     ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_selecti_right             ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right     ),
+    .data_in_a                      (data_out_right                ),
     .mem_sel_write_n_a              (mem_sel_write_n[7]           ),
     .row_col_select_a               (row_col_select[7]            ), 
-    .output_active_a                (output_active                ),
+    .output_active_a                (output_active_right           ),
     .inverter_select_a              (inverter_select[7]           ),
     .driver_io                      (driver_io[15:14]             )
   );
