@@ -35,11 +35,17 @@ module driver_core
   wire                           row_col_select; 
   wire                           output_active;
   wire                           inverter_select;
+  reg	[3:0]                    output_active_hold;
 
   wire firing_data;
   wire firing_bit;
   wire data;
   wire enable;
+
+  always@(posedge clock)
+  begin
+    output_active_hold = {output_active_hold[2:0],output_active};
+  end
 
    async_reg  mask_select_trans[2:0](
     .clock_async        (clock_a),
@@ -152,7 +158,7 @@ module driver_core
   dot_driver u3(          
     .clock                (clock                ),
     .dot_enable           (firing_bit           ),
-    .output_enable        (output_active        ),
+    .output_enable        (&output_active_hold  ),
     .dot_state            (firing_data          ),
     .dot_invert           (inverter_select      ),
     .data                 (data                 ),

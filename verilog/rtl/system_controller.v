@@ -204,7 +204,7 @@ module system_controller
         `TRIGGRED_NO_WAIT_STATE : run_state <= control_state[1] ? `CONTINUOUS_EXE_STATE : `ONESHOT_EXE_STATE;
         `CONTINUOUS_EXE_STATE   : run_state <= `CONTINUOUS_EXE_STATE;
         `ONESHOT_EXE_STATE      : run_state <= update_cycle_complete ? `HOLDING_STATE : `ONESHOT_EXE_STATE;
-        `HOLDING_STATE          : run_state <= `HOLDING_STATE;
+        `HOLDING_STATE          : run_state <= control_state[0] & control_trigger ? `ONESHOT_EXE_STATE : `HOLDING_STATE;
         default                 : run_state <= `IDLE_STATE;
       endcase
     end

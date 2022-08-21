@@ -39,7 +39,7 @@ set gds_root $::env(DESIGN_DIR)/../../gds/
 ## Source Verilog Files
 set ::env(VERILOG_FILES) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$script_dir/../../verilog/rtl/user_project_macro_wrapper.v"
+	$script_dir/../../verilog/rtl/user_project_wrapper.v"
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
@@ -102,11 +102,14 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 	 driver_core_4   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_5   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_6   	vccd1 vssd1 vccd1 vssd1, \
-	 driver_core_7   	vccd1 vssd1 vccd1 vssd1 \
-      	"
+	 driver_core_7   	vccd1 vssd1 vccd1 vssd1"
 
 #set ::env(LVS_CONNECT_BY_LABEL) 1
 
+set ::env(GLB_RT_ADJUSTMENT) 0.70
+
+set ::env(GLB_RT_L2_ADJUSTMENT) 0.6
+set ::env(GLB_RT_L3_ADJUSTMENT) 0.5
 
 # The following is because there are no std cells in the example wrapper project.
 set ::env(SYNTH_TOP_LEVEL) 1
@@ -120,22 +123,22 @@ set ::env(DIODE_INSERTION_STRATEGY) 0
 set ::env(FILL_INSERTION) 0
 set ::env(TAP_DECAP_INSERTION) 0
 set ::env(CLOCK_TREE_SYNTH) 0
-set ::env(QUIT_ON_LVS_ERROR) "0"
-set ::env(QUIT_ON_MAGIC_DRC) "0"
+set ::env(QUIT_ON_LVS_ERROR) "1"
+set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_NEGATIVE_WNS) "0"
-set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
-set ::env(QUIT_ON_TIMING_VIOLATIONS) "0"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "1"
+set ::env(QUIT_ON_TIMING_VIOLATIONS) "1"
 
 set ::env(FP_PDN_IRDROP) "1"
-set ::env(FP_PDN_HORIZONTAL_HALO) "10"
-set ::env(FP_PDN_VERTICAL_HALO) "10"
+#set ::env(FP_PDN_HORIZONTAL_HALO) "10"
+#set ::env(FP_PDN_VERTICAL_HALO) "10"
 
 #
 
-set ::env(FP_PDN_VOFFSET) "5"
-set ::env(FP_PDN_VPITCH) "180"
-set ::env(FP_PDN_HOFFSET) "5"
-set ::env(FP_PDN_HPITCH) "180"
+#set ::env(FP_PDN_VOFFSET) "5"
+#set ::env(FP_PDN_VPITCH) "180"
+#set ::env(FP_PDN_HOFFSET) "5"
+#set ::env(FP_PDN_HPITCH) "180"
 
 
 

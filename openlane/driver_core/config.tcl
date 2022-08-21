@@ -44,12 +44,12 @@ set ::env(CTS_SINK_CLUSTERING_SIZE) 8
 set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1200 600"
+set ::env(DIE_AREA) "0 0 1350 550"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.19
+set ::env(PL_TARGET_DENSITY) 0.18
 
 set ::env(FP_CORE_UTIL) 10
 set ::env(FP_IO_VEXTEND) 4
