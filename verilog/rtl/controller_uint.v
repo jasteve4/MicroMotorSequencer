@@ -34,7 +34,6 @@ module controller_unit
   output reg                        io_miso_oeb,
 
   // system inputs
-<<<<<<< HEAD
   output reg  [2:0]                 mask_select_right,
   output reg  [2:0]                 mask_select_left,
   output reg  [6:0]                 mem_address_right,
@@ -72,23 +71,6 @@ module controller_unit
   wire  [NUM_OF_DRIVERS-1:0]      internal_inverter_select;
 
 
-=======
-  output wire [2:0]                 mask_select,
-  output wire [6:0]                 mem_address,
-  output wire [NUM_OF_DRIVERS-1:0]  mem_write_n,
-  output wire [NUM_OF_DRIVERS-1:0]  mem_dot_write_n,
-  output wire [MEM_ADDRESS_LENGTH-1:0]   row_select,
-  output wire [MEM_ADDRESS_LENGTH-1:0]   col_select,
-  output wire [6:0]                 mem_sel_col_address,
-  output wire [15:0]                data_out,
-  output wire [NUM_OF_DRIVERS-1:0]  mem_sel_write_n,
-  output wire [NUM_OF_DRIVERS-1:0]  row_col_select,
-  output wire                       output_active,
-  output wire [NUM_OF_DRIVERS-1:0]  inverter_select
-   
-);
-
->>>>>>> 27aedbbc2bbe57666d3b332b38d00c77e49714b6
   reg           reset_n;
   reg           latch_data;
   reg           control_trigger;
@@ -103,10 +85,10 @@ module controller_unit
 
   wire update_cycle_complete;
   wire          timer_enable;
+  wire          clock;
 
 
 
-<<<<<<< HEAD
   always@(posedge clock)
   begin
     mask_select_right         = internal_mask_select;          
@@ -130,8 +112,6 @@ module controller_unit
     inverter_select           = internal_inverter_select;     
   end
 
-=======
->>>>>>> 27aedbbc2bbe57666d3b332b38d00c77e49714b6
   // Assuming LA probes [65:64] are for controlling the count clk & reset  
   assign clock = (~la_oenb[64]) ? la_data_in[64]: user_clock2;
 
