@@ -148,15 +148,12 @@ module user_project_wrapper #(
 
   assign io_mosi_in                 = io_in[33];
   assign io_oeb[33]                 = io_mosi_oeb;
-  assign io_out[33]                 = io_miso_out;
 
   assign io_ss_n_in                 = io_in[32];
   assign io_oeb[32]                 = io_ss_n_oeb;
-  assign io_out[32]                 = io_miso_out;
 
   assign io_sclk_in                 = io_in[31];
   assign io_oeb[31]                 = io_sclk_oeb;
-  assign io_out[31]                 = io_miso_out;
 
   assign io_out[30]                 = io_update_cycle_complete_out;
   assign io_oeb[30]                 = io_update_cycle_complete_oeb;

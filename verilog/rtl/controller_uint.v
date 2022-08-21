@@ -86,7 +86,23 @@ module controller_unit
   wire update_cycle_complete;
   wire          timer_enable;
   wire          clock;
+  reg [1:0]     latch_data_sync;
+  wire          latch_data_s;
+  reg [1:0]     control_trigger_sync;
+  wire          control_trigger_s;
+  reg [1:0]     reset_n_sync;
+  wire          reset_n_s;
 
+  always@(posedge clock)
+  begin
+    latch_data_sync = {latch_data_sync[0],latch_data};
+    control_trigger_sync = {control_trigger_sync[0],control_trigger};
+    reset_n_sync = {reset_n_sync[0],reset_n};
+  end
+
+  assign latch_data_s = &{latch_data_sync,latch_data} ? 1'b1 : 1'b0;
+  assign control_trigger_s = &{control_trigger_sync,control_trigger} ? 1'b1 : 1'b0;
+  assign reset_n_s = |{reset_n_sync,reset_n} ? 1'b1 : 1'b0;
 
 
   always@(posedge clock)
@@ -162,10 +178,10 @@ module controller_unit
   )
   u0 (
     .clock                 (clock                        ),
-    .reset_n               (reset_n                      ),
+    .reset_n               (reset_n_s                      ),
     .cmd_data              (cmd_data                     ),
-    .latch_data            (latch_data                   ),
-    .control_trigger       (control_trigger              ),
+    .latch_data            (latch_data_s                   ),
+    .control_trigger       (control_trigger_s              ),
     .mem_dot_write_n       (internal_mem_dot_write_n              ),
     .mem_sel_write_n       (internal_mem_sel_write_n              ),
     .mem_write_n           (internal_mem_write_n                  ),
