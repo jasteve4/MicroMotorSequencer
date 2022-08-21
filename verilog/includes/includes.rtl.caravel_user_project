@@ -9,5 +9,8 @@
 -v $(USER_PROJECT_VERILOG)/rtl/sequencer_chip.v
 -v $(USER_PROJECT_VERILOG)/rtl/spi_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/system_controller.v
+-v $(USER_PROJECT_VERILOG)/rtl/driver_core.v
+-v $(USER_PROJECT_VERILOG)/rtl/controller_uint.v
+-v $(USER_PROJECT_VERILOG)/rtl/async_reg.v
 
  
