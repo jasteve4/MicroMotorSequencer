@@ -43,7 +43,7 @@ set ::env(VERILOG_FILES) "\
 
 ## Clock configurations
 set ::env(CLOCK_PORT) "user_clock2"
-set ::env(CLOCK_NET) "controller_unit_mod.clock_out\[0\] controller_unit_mod.clock_out\[1\] controller_unit_mod.clock_out\[2\] controller_unit_mod.clock_out\[3\] clock_out\[4\] clock_out\[5\] clock_out\[6\] clock_out\[7\]"
+set ::env(CLOCK_NET) "user_clock2 clock_out\[0\] clock_out\[1\] controller_unit_mod.clock_out\[2\] controller_unit_mod.clock_out\[3\] clock_out\[4\] clock_out\[5\] clock_out\[6\] clock_out\[7\] clock_out\[8\] clock_out\[9\]"
 
 set ::env(CLOCK_PERIOD) "20"
 
@@ -62,18 +62,15 @@ set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
 	$::env(DESIGN_DIR)/../../verilog/gl/controller_unit.v \
-	$::env(DESIGN_DIR)/../../verilog/gl/driver_core.v \
-	$::env(DESIGN_DIR)/../../verilog/gl/driver_core_mirror.v"
+	$::env(DESIGN_DIR)/../../verilog/gl/driver_core.v "
 
 set ::env(EXTRA_LEFS) "\
 	$::env(DESIGN_DIR)/../../lef/controller_unit.lef \
-	$::env(DESIGN_DIR)/../../lef/driver_core.lef \
-	$::env(DESIGN_DIR)/../../lef/driver_core_mirror.lef"
+	$::env(DESIGN_DIR)/../../lef/driver_core.lef "
 
 set ::env(EXTRA_GDS_FILES) "\
 	$::env(DESIGN_DIR)/../../gds/controller_unit.gds \
-	$::env(DESIGN_DIR)/../../gds/driver_core.gds \
-	$::env(DESIGN_DIR)/../../gds/driver_core_mirror.gds"
+	$::env(DESIGN_DIR)/../../gds/driver_core.gds "
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
 
@@ -102,7 +99,9 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 	 driver_core_4   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_5   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_6   	vccd1 vssd1 vccd1 vssd1, \
-	 driver_core_7   	vccd1 vssd1 vccd1 vssd1"
+	 driver_core_7   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_8   	vccd1 vssd1 vccd1 vssd1, \
+	 driver_core_9   	vccd1 vssd1 vccd1 vssd1"
 
 #set ::env(LVS_CONNECT_BY_LABEL) 1
 

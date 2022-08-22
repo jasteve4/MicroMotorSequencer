@@ -5,7 +5,7 @@ module controller_unit
 #(
   parameter MEM_LENGTH = 48,
   parameter MEM_ADDRESS_LENGTH=6,
-  parameter NUM_OF_DRIVERS =8
+  parameter NUM_OF_DRIVERS =10
 )
 (
   // logic analizer inputs

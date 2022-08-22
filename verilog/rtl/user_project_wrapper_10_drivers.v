@@ -528,7 +528,7 @@ module user_project_wrapper #(
     .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
  `endif
   )
-  driver_core_7
+  driver_core_8
   (
 `ifdef SYNTHESIS
     .vccd1                           (vccd1                         ),
@@ -558,7 +558,7 @@ module user_project_wrapper #(
     .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
  `endif
   )
-  driver_core_7
+  driver_core_9
   (
 `ifdef SYNTHESIS
     .vccd1                           (vccd1                         ),

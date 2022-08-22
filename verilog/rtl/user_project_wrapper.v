@@ -85,7 +85,7 @@ module user_project_wrapper #(
 /*--------------------------------------*/
 /* User project is instantiated  here   */
 /*--------------------------------------*/
-  localparam NUM_OF_DRIVERS = 8;
+  localparam NUM_OF_DRIVERS = 10;
   localparam MEM_ADDRESS_LENGTH =6;
   localparam MEM_LENGTH = 48;
 
@@ -167,20 +167,20 @@ module user_project_wrapper #(
   assign io_oeb[24]                 = io_driver_io_oeb[2];
   assign io_oeb[23]                 = io_driver_io_oeb[3];
   assign io_oeb[22]                 = io_driver_io_oeb[3];
-//  assign io_oeb[21]                 = 0;
-//  assign io_oeb[20]                 = 0;
+  assign io_oeb[21]                 = io_driver_io_oeb[4];
+  assign io_oeb[20]                 = io_driver_io_oeb[4];
 //  assign io_oeb[19]                 = 0;
 //  assign io_oeb[18]                 = 0;
-//  assign io_oeb[17]                 = 0;
-//  assign io_oeb[16]                 = 0;
-  assign io_oeb[15]                 = io_driver_io_oeb[4];
-  assign io_oeb[14]                 = io_driver_io_oeb[4];
-  assign io_oeb[13]                 = io_driver_io_oeb[5];
-  assign io_oeb[12]                 = io_driver_io_oeb[5];
-  assign io_oeb[11]                 = io_driver_io_oeb[6];
-  assign io_oeb[10]                 = io_driver_io_oeb[6];
-  assign io_oeb[9]                  = io_driver_io_oeb[7];
-  assign io_oeb[8]                  = io_driver_io_oeb[7];
+  assign io_oeb[17]                 = io_driver_io_oeb[5];
+  assign io_oeb[16]                 = io_driver_io_oeb[5];
+  assign io_oeb[15]                 = io_driver_io_oeb[6];
+  assign io_oeb[14]                 = io_driver_io_oeb[6];
+  assign io_oeb[13]                 = io_driver_io_oeb[7];
+  assign io_oeb[12]                 = io_driver_io_oeb[7];
+  assign io_oeb[11]                 = io_driver_io_oeb[8];
+  assign io_oeb[10]                 = io_driver_io_oeb[8];
+  assign io_oeb[9]                  = io_driver_io_oeb[9];
+  assign io_oeb[8]                  = io_driver_io_oeb[9];
 //  assign io_oeb[7]                 = 0;
 //  assign io_oeb[6]                 = 0;
 //  assign io_oeb[5]                 = 0;
@@ -198,20 +198,20 @@ module user_project_wrapper #(
   assign io_out[24]                 = driver_io[5];
   assign io_out[23]                 = driver_io[6];
   assign io_out[22]                 = driver_io[7];
-//  assign io_out[21]                 = 0;
-//  assign io_out[20]                 = 0;
+  assign io_out[21]                 = driver_io[8];
+  assign io_out[20]                 = driver_io[9];
 //  assign io_out[19]                 = 0;
 //  assign io_out[18]                 = 0;
-//  assign io_out[17]                 = 0;
-//  assign io_out[16]                 = 0;
-  assign io_out[15]                 = driver_io[8];
-  assign io_out[14]                 = driver_io[9];
-  assign io_out[13]                 = driver_io[10];
-  assign io_out[12]                 = driver_io[11];
-  assign io_out[11]                 = driver_io[12];
-  assign io_out[10]                 = driver_io[13];
-  assign io_out[9]                  = driver_io[14];
-  assign io_out[8]                  = driver_io[15];
+  assign io_out[17]                 = driver_io[10];
+  assign io_out[16]                 = driver_io[11];
+  assign io_out[15]                 = driver_io[12];
+  assign io_out[14]                 = driver_io[13];
+  assign io_out[13]                 = driver_io[14];
+  assign io_out[12]                 = driver_io[15];
+  assign io_out[11]                 = driver_io[16];
+  assign io_out[10]                 = driver_io[17];
+  assign io_out[9]                  = driver_io[18];
+  assign io_out[8]                  = driver_io[19];
 //  assign io_out[7]                 = 0;
 //  assign io_out[6]                 = 0;
 //  assign io_out[5]                 = 0;
@@ -416,17 +416,17 @@ module user_project_wrapper #(
 `endif
     .clock                          (clock_out[4]                 ),
     .clock_a                        (clock_out[4]                 ),
-    .mask_select_a                  (mask_select_right             ),
-    .mem_address_a                  (mem_address_right[MEM_ADDRESS_LENGTH-1:0]),
+    .mask_select_a                  (mask_select_left             ),
+    .mem_address_a                  (mem_address_left[MEM_ADDRESS_LENGTH-1:0]),
     .mem_write_n_a                  (mem_write_n[4]               ),
     .mem_dot_write_n_a              (mem_dot_write_n[4]           ),
-    .row_select_a                   (row_select_right              ),
-    .col_select_a                   (col_select_right              ),
-    .mem_sel_col_address_a          (mem_sel_col_address_right[MEM_ADDRESS_LENGTH-1:0]),
-    .data_in_a                      (data_out_right                ),
+    .row_select_a                   (row_select_left              ),
+    .col_select_a                   (col_select_left              ),
+    .mem_sel_col_address_a          (mem_sel_col_address_left[MEM_ADDRESS_LENGTH-1:0]),
+    .data_in_a                      (data_out_left                ),
     .mem_sel_write_n_a              (mem_sel_write_n[4]           ),
     .row_col_select_a               (row_col_select[4]            ), 
-    .output_active_a                (output_active_right           ),
+    .output_active_a                (output_active_left           ),
     .inverter_select_a              (inverter_select[4]           ),
     .driver_io                      (driver_io[9:8]               )
   );
@@ -521,6 +521,65 @@ module user_project_wrapper #(
     .driver_io                      (driver_io[15:14]             )
   );
 
+  driver_core
+  #(
+`ifndef SYNTHESIS
+    .MEM_LENGTH                     (MEM_LENGTH                   ),
+    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+ `endif
+  )
+  driver_core_8
+  (
+`ifdef SYNTHESIS
+    .vccd1                           (vccd1                         ),
+    .vssd1                           (vssd1                         ),
+`endif
+    .clock                          (clock_out[8]                 ),
+    .clock_a                        (clock_out[8]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right[MEM_ADDRESS_LENGTH-1:0]),
+    .mem_write_n_a                  (mem_write_n[8]               ),
+    .mem_dot_write_n_a              (mem_dot_write_n[8]           ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_select_right              ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right[MEM_ADDRESS_LENGTH-1:0]),
+    .data_in_a                      (data_out_right                ),
+    .mem_sel_write_n_a              (mem_sel_write_n[8]           ),
+    .row_col_select_a               (row_col_select[8]            ), 
+    .output_active_a                (output_active_right           ),
+    .inverter_select_a              (inverter_select[8]           ),
+    .driver_io                      (driver_io[17:16]             )
+  );
+
+  driver_core
+  #(
+`ifndef SYNTHESIS
+    .MEM_LENGTH                     (MEM_LENGTH                   ),
+    .MEM_ADDRESS_LENGTH             (MEM_ADDRESS_LENGTH           )
+ `endif
+  )
+  driver_core_9
+  (
+`ifdef SYNTHESIS
+    .vccd1                           (vccd1                         ),
+    .vssd1                           (vssd1                         ),
+`endif
+    .clock                          (clock_out[9]                 ),
+    .clock_a                        (clock_out[9]                 ),
+    .mask_select_a                  (mask_select_right             ),
+    .mem_address_a                  (mem_address_right[MEM_ADDRESS_LENGTH-1:0]),
+    .mem_write_n_a                  (mem_write_n[9]               ),
+    .mem_dot_write_n_a              (mem_dot_write_n[9]           ),
+    .row_select_a                   (row_select_right              ),
+    .col_select_a                   (col_select_right              ),
+    .mem_sel_col_address_a          (mem_sel_col_address_right[MEM_ADDRESS_LENGTH-1:0]),
+    .data_in_a                      (data_out_right                ),
+    .mem_sel_write_n_a              (mem_sel_write_n[9]           ),
+    .row_col_select_a               (row_col_select[9]            ), 
+    .output_active_a                (output_active_right           ),
+    .inverter_select_a              (inverter_select[9]           ),
+    .driver_io                      (driver_io[19:18]             )
+  );
 
 endmodule	// user_project_wrapper
 
