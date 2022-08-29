@@ -186,249 +186,254 @@ module system_10dot_test_tb;
 	end
 	endtask
 
+  task write_mem_data_cmd;
+    input [3:0]  driver_select;
+    input [9:0]  address;
+    input [15:0] data;
+    reg [31:0] cmd; 
+    begin
+      cmd[15:0] = data;
+      cmd[25:16] = address;
+      cmd[29:26] = driver_select;
+      cmd[31:30] = 2'b00;
+      wait_n_clocks(10);
+      wait_n_clocks(10);
+      spi_write(cmd);
+      wait_n_clocks(10);
+    end
+  endtask
+
+
+  task clear_mem;
+    input [3:0] device_select;
+    integer ii;
+    begin
+      for(ii=0;ii<SYS_MEM_BOUND+1;ii=ii+1) begin
+        write_mem_data_cmd(device_select,ii,16'b0);
+      end
+    end
+  endtask
+
+
+  task write_to_select_mem;
+    input [3:0]  driver_select;
+    input [31:0] idx;
+    input [31:0] data;
+    begin
+      write_mem_data_cmd(driver_select,idx+SELECT_MEM_LOWER_BOUND,data); 
+    end
+  endtask
+
+  task write_to_active_mem;
+    input [3:0]  driver_select;
+    input [31:0] idx;
+    input [31:0] data;
+    begin
+      write_mem_data_cmd(driver_select,idx+ACTIVE_MEM_LOWER_BOUND,data); 
+    end
+  endtask
+
+  task write_to_dot_data_mem;
+    input [3:0]  driver_select;
+    input [31:0] idx;
+    input [31:0] data;
+    begin
+      write_mem_data_cmd(driver_select,idx+DOT_MEM_LOWER_BOUND,data); 
+    end
+  endtask
 
 
 
-	task oneshot_exe;
-	begin
-		@(posedge clock);
-		spi_write({2'b11,4'b1000,26'b0});
-		wait_n_clocks(10);
-		$display("waing for update complete");
-                control_trigger= 1;
-		wait_n_clocks(200);
-                control_trigger= 0;
-		@(posedge update_cycle_complete);
-		wait_n_clocks(10);
-	end
-	endtask
+  task oneshot_exe;
+    begin
+      @(posedge clock);
+      spi_write({2'b11,4'b1101,26'b0});
+      wait_n_clocks(100);
+      control_trigger = 1'b1;
+      wait_n_clocks(100);
+      control_trigger = 1'b0;
+      @(posedge update_cycle_complete);
+      wait_n_clocks(10);
+    end
+  endtask
 
-	task write_sel_cmd;
-	input [3:0]  driver_select;
-	input [31:0] row_address;
-	input [31:0] col_address;
-	input [31:0] data;
-	reg [31:0] cmd; 
-	begin
-		cmd[7:0] = data;
-		cmd[14:8] = col_address;
-		cmd[21:15] = row_address;
-		cmd[22] = 1'b1;
-		cmd[25:23] = 3'b0;
-		cmd[29:26] = driver_select;
-		cmd[31:30] = 2'b10;
-		wait_n_clocks(1);
-		spi_write(cmd);
-	end
-	endtask
+  task refresh_display;
+  begin
+      control_trigger = 1'b1;
+      wait_n_clocks(100);
+      control_trigger = 1'b0;
+      @(posedge update_cycle_complete);
+  end
+  endtask
 
-	task write_mem_data_cmd;
-	input [3:0]  driver_select;
-	input [6:0]  address;
-	input [2:0]  update_mask;
-	input [15:0] data;
-	reg [31:0] cmd; 
-	begin
-		cmd[15:0] = data;
-		cmd[22:16] = address;
-		cmd[25:23] = update_mask;
-		cmd[29:26] = driver_select;
-		cmd[31:30] = 2'b00;
-		wait_n_clocks(1);
-		spi_write(cmd);
-	end
-	endtask
+  task update_select;
+    input [31:0] driver_select;
+    integer ii;
+    begin
+      for(ii=0;ii<48;ii=ii+1)
+      begin
+        write_to_select_mem(driver_select,ii,ii);
+      end
+    end
+  endtask
 
-	task write_dot_data_cmd;
-	input [3:0]  driver_select;
-	input [2:0] update_mask;
-	input [15:0] data;
-	reg [31:0] cmd; 
-	begin
-		cmd[15:0] = data;
-		cmd[22:16] = 0;
-		cmd[25:23] = update_mask;
-		cmd[29:26] = driver_select;
-		cmd[31:30] = 2'b01;
-		wait_n_clocks(1);
-		spi_write(cmd);
-	end
-	endtask
+  task update_active_mem_row;
+    input [3:0]   driver_select;
+    input [6:0]   address;
+    input [47:0] data;
+    integer ii;
+    reg [15:0] d;
+    begin
+      for(ii=0;ii<3;ii=ii+1)
+      begin
+        @(posedge clock);
+        d = data>>(16*ii);
+        @(posedge clock);
+        write_to_active_mem(driver_select,address*3,d);
+        @(posedge clock);
+      end
+    end
+  endtask
 
-	task write_config_cmd;
-	input [5:0]  address;
-	input [15:0] data;
-	reg [31:0] cmd; 
-	begin
-		cmd[15:0] = data;
-		cmd[21:16] = address;
-		cmd[22] = 1'b0;
-		cmd[25:23] = 3'b0;
-		cmd[29:26] = 4'b0;
-		cmd[31:30] = 2'b10;
-		wait_n_clocks(1);
-		spi_write(cmd);
-	end
-	endtask
+  task update_active_mem_col;
+    input [3:0]   driver_select;
+    input [9:0]   address;
+    input [47:0] data;
+    integer ii;
+    reg d; 
+    reg [15:0] insert_data;
+    reg [2:0] mask_offset ;
+    reg [9:0] address_offset;
+    reg [9:0] row_address;
+    begin
+      for(ii=0;ii<48;ii=ii+1)
+      begin
+        insert_data = data[ii];
+        @(posedge clock);
+        if(address < 16) begin
+          address_offset = 0;
+          insert_data = insert_data << address;
+        end else if(address < 32) begin
+          address_offset = 1;
+          insert_data = insert_data << (address - 16);
+        end else begin
+          address_offset = 2;
+          insert_data = insert_data << (address - 32);
+        end
+        row_address = address_offset+3*ii;
+        @(posedge clock);
+        write_to_active_mem(driver_select,row_address,insert_data);
+        @(posedge clock);
+      end
+    end
+  endtask
 
+  task update_dot_data;
+    input [3:0]   driver_select;
+    input [47:0] data;
+    integer ii;
+    reg [15:0] d;
+    begin
+      for(ii=0;ii<3;ii=ii+1)
+      begin
+        @(posedge clock);
+        d = data>>(16*ii);
+        @(posedge clock);
+        write_to_dot_data_mem(driver_select,ii,d);
+        @(posedge clock);
+      end
+    end
+  endtask
 
-	task update_row_sel_limit;
-	input [31:0] driver_select;
-	input [31:0] row_address;
-	input [31:0] limit;
-	integer ii;
-	begin
-		for(ii=0;ii<limit;ii=ii+1)
-		begin
-			write_sel_cmd(driver_select,ii,ii,ii);
-		end
-	end
-	endtask
-
-	task update_col_sel_limit;
-	input [31:0] driver_select;
-	input [31:0] col_address;
-	input [31:0] limit;
-	integer ii;
-	begin
-		for(ii=0;ii<limit;ii=ii+1)
-		begin
-			write_sel_cmd(driver_select,ii,ii,ii);
-		end
-	end
-	endtask
-
-	task update_mem_row_limit;
-	input [3:0]   driver_select;
-	input [6:0]   address;
-	input [127:0] data;
-	input [31:0]  limit;
-	integer ii;
-	reg [15:0] d;
-	begin
-		for(ii=0;ii<($floor(limit/16)+1);ii=ii+1)
-		begin
-			@(posedge clock);
-			d = data>>(16*ii);
-			@(posedge clock);
-			write_mem_data_cmd(driver_select,address,ii,d);
-			@(posedge clock);
-		end
-	end
-	endtask
-
-	task update_mem_col_limit;
-	input [3:0]   driver_select;
-	input [6:0]   address;
-	input [127:0] data;
-	input [31:0] limit;
-	integer ii;
-	reg d; 
-	reg [15:0] insert_data;
-	reg [2:0] mask_offset ;
-	begin
-		mask_offset= address[6:4];
-		for(ii=0;ii<limit;ii=ii+1)
-		begin
-			d = data>>(ii);
-			insert_data = 16'b0;
-			insert_data = d << address[3:0];
-			@(posedge clock);
-			write_mem_data_cmd(driver_select,ii,mask_offset,insert_data);
-		end
-	end
-	endtask
-
-	task update_dot_data_limit;
-	input [3:0]   driver_select;
-	input [127:0] data;
-	input [31:0]  _col_limit;
-	integer ii;
-	reg [15:0] d;
-	begin
-		for(ii=0;ii<($floor(_col_limit/16)+1);ii=ii+1)
-		begin
-			d = data>>(16*ii);
-			@(posedge clock);
-			write_dot_data_cmd(driver_select,ii,d);
-		end
-	end
-	endtask
+  task write_config_cmd;
+    input [9:0]  address;
+    input [15:0] data;
+    reg [31:0] cmd; 
+    begin
+      cmd[15:0] = data;
+      cmd[25:16] = address;
+      cmd[29:26] = 4'b0;
+      cmd[31:30] = 2'b10;
+      wait_n_clocks(10);
+      wait_n_clocks(10);
+      spi_write(cmd);
+      wait_n_clocks(10);
+    end
+  endtask
 
 
-	task config_backend;
-	input [31:0] _ccr0;
-	input [31:0] _ccr1;
-	input [31:0] _ordering_complete;
-	input [31:0] _row_limit;
-	input [31:0] _col_limit;
-	input [31:0] _inverter_select;
-	input [31:0] _row_col_select;
-	begin
-		@(posedge clock);
-		write_config_cmd(0,_ccr0[15:0]);
-		write_config_cmd(1,_ccr0[31:16]);
-		write_config_cmd(2,_ccr1[15:0]);
-		write_config_cmd(3,_ccr1[31:16]);
-		write_config_cmd(4,_ordering_complete[15:0]);
-		write_config_cmd(5,_ordering_complete[31:16]);
-		write_config_cmd(6,_row_limit);
-		write_config_cmd(7,_col_limit);
-		write_config_cmd(8,_inverter_select);
-		write_config_cmd(9,_row_col_select);
-	end
-	endtask
+  task config_backend;
+    input [31:0] _ccr0;
+    input [31:0] _ccr1;
+    input [31:0] _ordering_complete;
+    input [31:0] _row_limit;
+    input [31:0] _col_limit;
+    input [31:0] _inverter_select;
+    input [31:0] _row_col_select;
+    begin
+      @(posedge clock);
+      write_config_cmd(0,_ccr0[15:0]);
+      write_config_cmd(1,_ccr0[31:16]);
+      write_config_cmd(2,_ccr1[15:0]);
+      write_config_cmd(3,_ccr1[31:16]);
+      write_config_cmd(4,_ordering_complete[15:0]);
+      write_config_cmd(5,_ordering_complete[31:16]);
+      write_config_cmd(6,_row_limit);
+      write_config_cmd(7,_col_limit);
+      write_config_cmd(8,_inverter_select);
+      write_config_cmd(9,_row_col_select);
+    end
+  endtask
 
-	task set_config_5x5;
-	integer ii, jj;
-	reg [31:0] device;
-	begin
-		config_backend(CCR0,CCR1,NUM_OF_UPDATE_CYCLES,NUM_OF_ROWS-1,NUM_OF_COLS-1,16'b0000_0011_1110_0000,16'b0000_0000_0001_1111);
-		for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
-		begin
-			device = ii;
-			update_dot_data_limit(device,ii+1,NUM_OF_COLS);
-			update_mem_row_limit(device,device,~(31'b0),NUM_OF_COLS);
-			update_row_sel_limit(device,device,NUM_OF_COLS);
-		end
-		for(ii=0;ii<NUM_OF_COLS;ii=ii+1)
-		begin
-			device = ii;
-			update_dot_data_limit(device+NUM_OF_ROWS,ii+NUM_OF_ROWS+1,NUM_OF_ROWS);
-			update_mem_col_limit(device+NUM_OF_ROWS,device,~(31'b0),NUM_OF_ROWS);
-			update_col_sel_limit(device+NUM_OF_ROWS,device,NUM_OF_ROWS);
-		end
-	end
-	endtask
+  task set_config_5x5;
+    integer ii, jj;
+    reg [31:0] device;
+    begin
+      config_backend(ccr0,ccr1,NUM_OF_UPDATE_CYCLES,NUM_OF_ROWS-1,NUM_OF_COLS-1,16'b0000_0011_1110_0000,16'b0000_0000_0001_1111);
+      for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
+      begin
+        device = ii;
+        update_active_mem_row(device,device,~(48'b0));
+        update_select(device);
+      end
+      for(ii=0;ii<NUM_OF_COLS;ii=ii+1)
+      begin
+        device = ii;
+        update_active_mem_col(device+NUM_OF_ROWS,device,~(48'b0));
+        update_select(device+NUM_OF_ROWS);
+      end
+    end
+  endtask
 
-	task write_5x5_data;
-	//input data [0:NUM_OF_ROWS-1][NUM_OF_COLS-1:0];
-	integer ii,jj;
-	reg [15:0] row;
-	reg [15:0] col;
-	begin
-		row=0;
-		col=0;
-		for(jj=0;jj<NUM_OF_ROWS;jj=jj+1)
-		begin
-			for(ii=0;ii<NUM_OF_COLS;ii=ii+1)
-			begin
-				row[ii] = dot_2d_array[jj][ii];
-				@(posedge clock);
-			end
-			update_dot_data_limit(jj,row,NUM_OF_COLS);
-		end
-		for(jj=0;jj<NUM_OF_COLS;jj=jj+1)
-		begin
-			for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
-			begin
-				col[ii] = dot_2d_array[ii][jj];
-				@(posedge clock);
-			end
-			update_dot_data_limit(jj+NUM_OF_ROWS,col,NUM_OF_ROWS);
-		end
-	end
-	endtask
+  task write_5x5_data;
+    reg data [0:NUM_OF_ROWS-1][NUM_OF_COLS-1:0];
+    integer ii,jj;
+    reg [47:0] row;
+    reg [47:0] col;
+    begin
+      data=dot_2d_array;
+      row=0;
+      col=0;
+      for(jj=0;jj<NUM_OF_ROWS;jj=jj+1)
+      begin
+        for(ii=0;ii<NUM_OF_COLS;ii=ii+1)
+        begin
+          row[ii] = data[jj][ii];
+          @(posedge clock);
+        end
+        update_dot_data(jj,row);
+      end
+      for(jj=0;jj<NUM_OF_COLS;jj=jj+1)
+      begin
+        for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
+        begin
+          col[ii] = data[ii][jj];
+          @(posedge clock);
+        end
+        update_dot_data(jj+NUM_OF_ROWS,col);
+      end
+    end
+  endtask
 
 	task check_output;
 	input [31:0] test_case;
@@ -490,7 +495,6 @@ module system_10dot_test_tb;
 			end
 		end
 		$display("writing 2d array to asic");
-		//write_5x5_data(dot_2d_array);
 		write_5x5_data();
 		$display("staring onshot execute asic");
 		oneshot_exe();
