@@ -1,4 +1,5 @@
 /.idea/
+/signoff/
 /precheck_results/
 */tmp
 */*/tmp
@@ -15,3 +16,7 @@
 *.mag
 *.swm
 *.csv
+*.ini
+*.sh
+*.ext
+*.log

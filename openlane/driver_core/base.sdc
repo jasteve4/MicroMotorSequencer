@@ -14,7 +14,7 @@ set_clock_transition $::env(SYNTH_CLOCK_TRANSITION) [all_clocks]
 puts "\[INFO\]: Setting clock uncertainity setup to: 0.5000"
 set_clock_uncertainty -setup 0.5000 [all_clocks]
 puts "\[INFO\]: Setting clock uncertainity hold to: 0.2500"
-set_clock_uncertainty -hold 0.2500 [all_clocks]
+set_clock_uncertainty -hold 0.500 [all_clocks]
 
 
 set ::env(SYNTH_TIMING_DERATE) 0.05

@@ -12,7 +12,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 649.610 -4.000 649.890 4.000 ;
+        RECT 573.250 -4.000 573.530 4.000 ;
     END
   END clock
   PIN clock_a
@@ -20,7 +20,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 624.310 -4.000 624.590 4.000 ;
+        RECT 544.270 -4.000 544.550 4.000 ;
     END
   END clock_a
   PIN col_select_a[0]
@@ -28,7 +28,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1105.010 -4.000 1105.290 4.000 ;
+        RECT 1094.890 -4.000 1095.170 4.000 ;
     END
   END col_select_a[0]
   PIN col_select_a[1]
@@ -36,7 +36,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1130.310 -4.000 1130.590 4.000 ;
+        RECT 1123.870 -4.000 1124.150 4.000 ;
     END
   END col_select_a[1]
   PIN col_select_a[2]
@@ -44,7 +44,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1155.610 -4.000 1155.890 4.000 ;
+        RECT 1152.850 -4.000 1153.130 4.000 ;
     END
   END col_select_a[2]
   PIN col_select_a[3]
@@ -52,7 +52,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1180.910 -4.000 1181.190 4.000 ;
+        RECT 1181.830 -4.000 1182.110 4.000 ;
     END
   END col_select_a[3]
   PIN col_select_a[4]
@@ -60,7 +60,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1206.210 -4.000 1206.490 4.000 ;
+        RECT 1210.810 -4.000 1211.090 4.000 ;
     END
   END col_select_a[4]
   PIN col_select_a[5]
@@ -68,7 +68,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1231.510 -4.000 1231.790 4.000 ;
+        RECT 1239.790 -4.000 1240.070 4.000 ;
     END
   END col_select_a[5]
   PIN data_in_a[0]
@@ -76,7 +76,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 219.510 -4.000 219.790 4.000 ;
+        RECT 80.590 -4.000 80.870 4.000 ;
     END
   END data_in_a[0]
   PIN data_in_a[10]
@@ -84,7 +84,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 472.510 -4.000 472.790 4.000 ;
+        RECT 370.390 -4.000 370.670 4.000 ;
     END
   END data_in_a[10]
   PIN data_in_a[11]
@@ -92,7 +92,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 497.810 -4.000 498.090 4.000 ;
+        RECT 399.370 -4.000 399.650 4.000 ;
     END
   END data_in_a[11]
   PIN data_in_a[12]
@@ -100,7 +100,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 523.110 -4.000 523.390 4.000 ;
+        RECT 428.350 -4.000 428.630 4.000 ;
     END
   END data_in_a[12]
   PIN data_in_a[13]
@@ -108,7 +108,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 548.410 -4.000 548.690 4.000 ;
+        RECT 457.330 -4.000 457.610 4.000 ;
     END
   END data_in_a[13]
   PIN data_in_a[14]
@@ -116,7 +116,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 573.710 -4.000 573.990 4.000 ;
+        RECT 486.310 -4.000 486.590 4.000 ;
     END
   END data_in_a[14]
   PIN data_in_a[15]
@@ -124,7 +124,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 599.010 -4.000 599.290 4.000 ;
+        RECT 515.290 -4.000 515.570 4.000 ;
     END
   END data_in_a[15]
   PIN data_in_a[1]
@@ -132,7 +132,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 244.810 -4.000 245.090 4.000 ;
+        RECT 109.570 -4.000 109.850 4.000 ;
     END
   END data_in_a[1]
   PIN data_in_a[2]
@@ -140,7 +140,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 270.110 -4.000 270.390 4.000 ;
+        RECT 138.550 -4.000 138.830 4.000 ;
     END
   END data_in_a[2]
   PIN data_in_a[3]
@@ -148,7 +148,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 295.410 -4.000 295.690 4.000 ;
+        RECT 167.530 -4.000 167.810 4.000 ;
     END
   END data_in_a[3]
   PIN data_in_a[4]
@@ -156,7 +156,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 320.710 -4.000 320.990 4.000 ;
+        RECT 196.510 -4.000 196.790 4.000 ;
     END
   END data_in_a[4]
   PIN data_in_a[5]
@@ -164,7 +164,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 346.010 -4.000 346.290 4.000 ;
+        RECT 225.490 -4.000 225.770 4.000 ;
     END
   END data_in_a[5]
   PIN data_in_a[6]
@@ -172,7 +172,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 371.310 -4.000 371.590 4.000 ;
+        RECT 254.470 -4.000 254.750 4.000 ;
     END
   END data_in_a[6]
   PIN data_in_a[7]
@@ -180,7 +180,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 396.610 -4.000 396.890 4.000 ;
+        RECT 283.450 -4.000 283.730 4.000 ;
     END
   END data_in_a[7]
   PIN data_in_a[8]
@@ -188,7 +188,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 421.910 -4.000 422.190 4.000 ;
+        RECT 312.430 -4.000 312.710 4.000 ;
     END
   END data_in_a[8]
   PIN data_in_a[9]
@@ -196,7 +196,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 447.210 -4.000 447.490 4.000 ;
+        RECT 341.410 -4.000 341.690 4.000 ;
     END
   END data_in_a[9]
   PIN driver_io[0]
@@ -204,7 +204,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 17.110 -4.000 17.390 4.000 ;
+        RECT 22.630 -4.000 22.910 4.000 ;
     END
   END driver_io[0]
   PIN driver_io[1]
@@ -212,7 +212,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 42.410 -4.000 42.690 4.000 ;
+        RECT 51.610 -4.000 51.890 4.000 ;
     END
   END driver_io[1]
   PIN inverter_select_a
@@ -220,39 +220,15 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1332.710 -4.000 1332.990 4.000 ;
+        RECT 1326.730 -4.000 1327.010 4.000 ;
     END
   END inverter_select_a
-  PIN mask_select_a[0]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 674.910 -4.000 675.190 4.000 ;
-    END
-  END mask_select_a[0]
-  PIN mask_select_a[1]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 700.210 -4.000 700.490 4.000 ;
-    END
-  END mask_select_a[1]
-  PIN mask_select_a[2]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 725.510 -4.000 725.790 4.000 ;
-    END
-  END mask_select_a[2]
   PIN mem_address_a[0]
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 750.810 -4.000 751.090 4.000 ;
+        RECT 602.230 -4.000 602.510 4.000 ;
     END
   END mem_address_a[0]
   PIN mem_address_a[1]
@@ -260,7 +236,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 776.110 -4.000 776.390 4.000 ;
+        RECT 631.210 -4.000 631.490 4.000 ;
     END
   END mem_address_a[1]
   PIN mem_address_a[2]
@@ -268,7 +244,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 801.410 -4.000 801.690 4.000 ;
+        RECT 660.190 -4.000 660.470 4.000 ;
     END
   END mem_address_a[2]
   PIN mem_address_a[3]
@@ -276,7 +252,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 826.710 -4.000 826.990 4.000 ;
+        RECT 689.170 -4.000 689.450 4.000 ;
     END
   END mem_address_a[3]
   PIN mem_address_a[4]
@@ -284,7 +260,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 852.010 -4.000 852.290 4.000 ;
+        RECT 718.150 -4.000 718.430 4.000 ;
     END
   END mem_address_a[4]
   PIN mem_address_a[5]
@@ -292,79 +268,47 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 877.310 -4.000 877.590 4.000 ;
+        RECT 747.130 -4.000 747.410 4.000 ;
     END
   END mem_address_a[5]
-  PIN mem_dot_write_n_a
+  PIN mem_address_a[6]
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 927.910 -4.000 928.190 4.000 ;
+        RECT 776.110 -4.000 776.390 4.000 ;
     END
-  END mem_dot_write_n_a
-  PIN mem_sel_col_address_a[0]
+  END mem_address_a[6]
+  PIN mem_address_a[7]
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 67.710 -4.000 67.990 4.000 ;
+        RECT 805.090 -4.000 805.370 4.000 ;
     END
-  END mem_sel_col_address_a[0]
-  PIN mem_sel_col_address_a[1]
+  END mem_address_a[7]
+  PIN mem_address_a[8]
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 93.010 -4.000 93.290 4.000 ;
+        RECT 834.070 -4.000 834.350 4.000 ;
     END
-  END mem_sel_col_address_a[1]
-  PIN mem_sel_col_address_a[2]
+  END mem_address_a[8]
+  PIN mem_address_a[9]
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 118.310 -4.000 118.590 4.000 ;
+        RECT 863.050 -4.000 863.330 4.000 ;
     END
-  END mem_sel_col_address_a[2]
-  PIN mem_sel_col_address_a[3]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 143.610 -4.000 143.890 4.000 ;
-    END
-  END mem_sel_col_address_a[3]
-  PIN mem_sel_col_address_a[4]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 168.910 -4.000 169.190 4.000 ;
-    END
-  END mem_sel_col_address_a[4]
-  PIN mem_sel_col_address_a[5]
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 194.210 -4.000 194.490 4.000 ;
-    END
-  END mem_sel_col_address_a[5]
-  PIN mem_sel_write_n_a
-    DIRECTION INPUT ;
-    USE SIGNAL ;
-    PORT
-      LAYER met2 ;
-        RECT 1256.810 -4.000 1257.090 4.000 ;
-    END
-  END mem_sel_write_n_a
+  END mem_address_a[9]
   PIN mem_write_n_a
     DIRECTION INPUT ;
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 902.610 -4.000 902.890 4.000 ;
+        RECT 892.030 -4.000 892.310 4.000 ;
     END
   END mem_write_n_a
   PIN output_active_a
@@ -372,7 +316,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1307.410 -4.000 1307.690 4.000 ;
+        RECT 1297.750 -4.000 1298.030 4.000 ;
     END
   END output_active_a
   PIN row_col_select_a
@@ -380,7 +324,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1282.110 -4.000 1282.390 4.000 ;
+        RECT 1268.770 -4.000 1269.050 4.000 ;
     END
   END row_col_select_a
   PIN row_select_a[0]
@@ -388,7 +332,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 953.210 -4.000 953.490 4.000 ;
+        RECT 921.010 -4.000 921.290 4.000 ;
     END
   END row_select_a[0]
   PIN row_select_a[1]
@@ -396,7 +340,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 978.510 -4.000 978.790 4.000 ;
+        RECT 949.990 -4.000 950.270 4.000 ;
     END
   END row_select_a[1]
   PIN row_select_a[2]
@@ -404,7 +348,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1003.810 -4.000 1004.090 4.000 ;
+        RECT 978.970 -4.000 979.250 4.000 ;
     END
   END row_select_a[2]
   PIN row_select_a[3]
@@ -412,7 +356,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1029.110 -4.000 1029.390 4.000 ;
+        RECT 1007.950 -4.000 1008.230 4.000 ;
     END
   END row_select_a[3]
   PIN row_select_a[4]
@@ -420,7 +364,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1054.410 -4.000 1054.690 4.000 ;
+        RECT 1036.930 -4.000 1037.210 4.000 ;
     END
   END row_select_a[4]
   PIN row_select_a[5]
@@ -428,7 +372,7 @@ MACRO driver_core
     USE SIGNAL ;
     PORT
       LAYER met2 ;
-        RECT 1079.710 -4.000 1079.990 4.000 ;
+        RECT 1065.910 -4.000 1066.190 4.000 ;
     END
   END row_select_a[5]
   PIN vccd1
@@ -649,92 +593,71 @@ MACRO driver_core
       LAYER li1 ;
         RECT 5.520 10.795 1344.120 538.645 ;
       LAYER met1 ;
-        RECT 5.520 3.440 1344.120 538.800 ;
+        RECT 5.520 7.520 1344.120 538.800 ;
       LAYER met2 ;
-        RECT 17.120 4.280 1337.120 538.745 ;
-        RECT 17.670 0.155 42.130 4.280 ;
-        RECT 42.970 0.155 67.430 4.280 ;
-        RECT 68.270 0.155 92.730 4.280 ;
-        RECT 93.570 0.155 118.030 4.280 ;
-        RECT 118.870 0.155 143.330 4.280 ;
-        RECT 144.170 0.155 168.630 4.280 ;
-        RECT 169.470 0.155 193.930 4.280 ;
-        RECT 194.770 0.155 219.230 4.280 ;
-        RECT 220.070 0.155 244.530 4.280 ;
-        RECT 245.370 0.155 269.830 4.280 ;
-        RECT 270.670 0.155 295.130 4.280 ;
-        RECT 295.970 0.155 320.430 4.280 ;
-        RECT 321.270 0.155 345.730 4.280 ;
-        RECT 346.570 0.155 371.030 4.280 ;
-        RECT 371.870 0.155 396.330 4.280 ;
-        RECT 397.170 0.155 421.630 4.280 ;
-        RECT 422.470 0.155 446.930 4.280 ;
-        RECT 447.770 0.155 472.230 4.280 ;
-        RECT 473.070 0.155 497.530 4.280 ;
-        RECT 498.370 0.155 522.830 4.280 ;
-        RECT 523.670 0.155 548.130 4.280 ;
-        RECT 548.970 0.155 573.430 4.280 ;
-        RECT 574.270 0.155 598.730 4.280 ;
-        RECT 599.570 0.155 624.030 4.280 ;
-        RECT 624.870 0.155 649.330 4.280 ;
-        RECT 650.170 0.155 674.630 4.280 ;
-        RECT 675.470 0.155 699.930 4.280 ;
-        RECT 700.770 0.155 725.230 4.280 ;
-        RECT 726.070 0.155 750.530 4.280 ;
-        RECT 751.370 0.155 775.830 4.280 ;
-        RECT 776.670 0.155 801.130 4.280 ;
-        RECT 801.970 0.155 826.430 4.280 ;
-        RECT 827.270 0.155 851.730 4.280 ;
-        RECT 852.570 0.155 877.030 4.280 ;
-        RECT 877.870 0.155 902.330 4.280 ;
-        RECT 903.170 0.155 927.630 4.280 ;
-        RECT 928.470 0.155 952.930 4.280 ;
-        RECT 953.770 0.155 978.230 4.280 ;
-        RECT 979.070 0.155 1003.530 4.280 ;
-        RECT 1004.370 0.155 1028.830 4.280 ;
-        RECT 1029.670 0.155 1054.130 4.280 ;
-        RECT 1054.970 0.155 1079.430 4.280 ;
-        RECT 1080.270 0.155 1104.730 4.280 ;
-        RECT 1105.570 0.155 1130.030 4.280 ;
-        RECT 1130.870 0.155 1155.330 4.280 ;
-        RECT 1156.170 0.155 1180.630 4.280 ;
-        RECT 1181.470 0.155 1205.930 4.280 ;
-        RECT 1206.770 0.155 1231.230 4.280 ;
-        RECT 1232.070 0.155 1256.530 4.280 ;
-        RECT 1257.370 0.155 1281.830 4.280 ;
-        RECT 1282.670 0.155 1307.130 4.280 ;
-        RECT 1307.970 0.155 1332.430 4.280 ;
-        RECT 1333.270 0.155 1337.120 4.280 ;
+        RECT 19.470 4.280 1329.300 538.745 ;
+        RECT 19.470 3.670 22.350 4.280 ;
+        RECT 23.190 3.670 51.330 4.280 ;
+        RECT 52.170 3.670 80.310 4.280 ;
+        RECT 81.150 3.670 109.290 4.280 ;
+        RECT 110.130 3.670 138.270 4.280 ;
+        RECT 139.110 3.670 167.250 4.280 ;
+        RECT 168.090 3.670 196.230 4.280 ;
+        RECT 197.070 3.670 225.210 4.280 ;
+        RECT 226.050 3.670 254.190 4.280 ;
+        RECT 255.030 3.670 283.170 4.280 ;
+        RECT 284.010 3.670 312.150 4.280 ;
+        RECT 312.990 3.670 341.130 4.280 ;
+        RECT 341.970 3.670 370.110 4.280 ;
+        RECT 370.950 3.670 399.090 4.280 ;
+        RECT 399.930 3.670 428.070 4.280 ;
+        RECT 428.910 3.670 457.050 4.280 ;
+        RECT 457.890 3.670 486.030 4.280 ;
+        RECT 486.870 3.670 515.010 4.280 ;
+        RECT 515.850 3.670 543.990 4.280 ;
+        RECT 544.830 3.670 572.970 4.280 ;
+        RECT 573.810 3.670 601.950 4.280 ;
+        RECT 602.790 3.670 630.930 4.280 ;
+        RECT 631.770 3.670 659.910 4.280 ;
+        RECT 660.750 3.670 688.890 4.280 ;
+        RECT 689.730 3.670 717.870 4.280 ;
+        RECT 718.710 3.670 746.850 4.280 ;
+        RECT 747.690 3.670 775.830 4.280 ;
+        RECT 776.670 3.670 804.810 4.280 ;
+        RECT 805.650 3.670 833.790 4.280 ;
+        RECT 834.630 3.670 862.770 4.280 ;
+        RECT 863.610 3.670 891.750 4.280 ;
+        RECT 892.590 3.670 920.730 4.280 ;
+        RECT 921.570 3.670 949.710 4.280 ;
+        RECT 950.550 3.670 978.690 4.280 ;
+        RECT 979.530 3.670 1007.670 4.280 ;
+        RECT 1008.510 3.670 1036.650 4.280 ;
+        RECT 1037.490 3.670 1065.630 4.280 ;
+        RECT 1066.470 3.670 1094.610 4.280 ;
+        RECT 1095.450 3.670 1123.590 4.280 ;
+        RECT 1124.430 3.670 1152.570 4.280 ;
+        RECT 1153.410 3.670 1181.550 4.280 ;
+        RECT 1182.390 3.670 1210.530 4.280 ;
+        RECT 1211.370 3.670 1239.510 4.280 ;
+        RECT 1240.350 3.670 1268.490 4.280 ;
+        RECT 1269.330 3.670 1297.470 4.280 ;
+        RECT 1298.310 3.670 1326.450 4.280 ;
+        RECT 1327.290 3.670 1329.300 4.280 ;
       LAYER met3 ;
-        RECT 19.450 0.175 1325.195 538.725 ;
+        RECT 19.450 8.335 1328.415 538.725 ;
       LAYER met4 ;
-        RECT 28.815 10.240 68.940 491.465 ;
-        RECT 74.740 10.240 118.940 491.465 ;
-        RECT 124.740 10.240 168.940 491.465 ;
-        RECT 174.740 10.240 218.940 491.465 ;
-        RECT 224.740 10.240 268.940 491.465 ;
-        RECT 274.740 10.240 318.940 491.465 ;
-        RECT 324.740 10.240 368.940 491.465 ;
-        RECT 374.740 10.240 418.940 491.465 ;
-        RECT 424.740 10.240 468.940 491.465 ;
-        RECT 474.740 10.240 518.940 491.465 ;
-        RECT 524.740 10.240 568.940 491.465 ;
-        RECT 574.740 10.240 618.940 491.465 ;
-        RECT 624.740 10.240 668.940 491.465 ;
-        RECT 674.740 10.240 718.940 491.465 ;
-        RECT 724.740 10.240 768.940 491.465 ;
-        RECT 774.740 10.240 818.940 491.465 ;
-        RECT 824.740 10.240 868.940 491.465 ;
-        RECT 874.740 10.240 918.940 491.465 ;
-        RECT 924.740 10.240 968.940 491.465 ;
-        RECT 974.740 10.240 1018.940 491.465 ;
-        RECT 1024.740 10.240 1068.940 491.465 ;
-        RECT 1074.740 10.240 1118.940 491.465 ;
-        RECT 1124.740 10.240 1168.940 491.465 ;
-        RECT 1174.740 10.240 1218.940 491.465 ;
-        RECT 1224.740 10.240 1268.940 491.465 ;
-        RECT 1274.740 10.240 1318.065 491.465 ;
-        RECT 28.815 0.175 1318.065 10.240 ;
+        RECT 562.415 14.455 568.940 282.025 ;
+        RECT 574.740 14.455 618.940 282.025 ;
+        RECT 624.740 14.455 668.940 282.025 ;
+        RECT 674.740 14.455 718.940 282.025 ;
+        RECT 724.740 14.455 768.940 282.025 ;
+        RECT 774.740 14.455 818.940 282.025 ;
+        RECT 824.740 14.455 868.940 282.025 ;
+        RECT 874.740 14.455 918.940 282.025 ;
+        RECT 924.740 14.455 968.940 282.025 ;
+        RECT 974.740 14.455 1018.940 282.025 ;
+        RECT 1024.740 14.455 1068.940 282.025 ;
+        RECT 1074.740 14.455 1118.425 282.025 ;
   END
 END driver_core
 END LIBRARY
