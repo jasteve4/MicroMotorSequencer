@@ -1,6 +1,14 @@
 /.idea/
 /signoff/
 /precheck_results/
+/caravel/
+/dependencies/
+/maglef/
+/mgmt_core_wrapper/
+mag/extract_user_project_wrapper.tcl
+mag/mag2gds_caravel.tcl
+/spef/
+/spi/
 */tmp
 */*/tmp
 *.hex*
@@ -20,3 +28,5 @@
 *.sh
 *.ext
 *.log
+*.hier*
+*.vvp*
