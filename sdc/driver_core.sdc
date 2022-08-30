@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Sun Aug 21 03:16:43 2022
+# Mon Aug 29 22:28:48 2022
 ###############################################################################
 current_design driver_core
 ###############################################################################
@@ -8,13 +8,11 @@ current_design driver_core
 ###############################################################################
 create_clock -name clock -period 20.0000 [get_ports {clock}]
 set_clock_transition 0.1500 [get_clocks {clock}]
-set_clock_uncertainty -setup 0.5000 clock
-set_clock_uncertainty -hold 0.2500 clock
+set_clock_uncertainty 0.5000 clock
 set_propagated_clock [get_clocks {clock}]
 create_clock -name clock_a -period 20.0000 [get_ports {clock_a}]
 set_clock_transition 0.1500 [get_clocks {clock_a}]
-set_clock_uncertainty -setup 0.5000 clock_a
-set_clock_uncertainty -hold 0.2500 clock_a
+set_clock_uncertainty 0.5000 clock_a
 set_propagated_clock [get_clocks {clock_a}]
 set_clock_groups -name async_clock -asynchronous \
  -group [get_clocks {clock}]\
@@ -65,12 +63,6 @@ set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {data_in_a[9]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {inverter_select_a}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {inverter_select_a}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mask_select_a[0]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mask_select_a[0]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mask_select_a[1]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mask_select_a[1]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mask_select_a[2]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mask_select_a[2]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[0]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[0]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[1]}]
@@ -83,20 +75,14 @@ set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[4]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[5]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[5]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_dot_write_n_a}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_dot_write_n_a}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[0]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[0]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[1]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[1]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[2]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[2]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[3]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[3]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[4]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[4]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_sel_col_address_a[5]}]
-set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_sel_col_address_a[5]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[6]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[6]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[7]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[7]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[8]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[8]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_address_a[9]}]
+set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_address_a[9]}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {mem_write_n_a}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -fall -max -add_delay [get_ports {mem_write_n_a}]
 set_input_delay 4.0000 -clock [get_clocks {clock_a}] -rise -max -add_delay [get_ports {output_active_a}]
@@ -127,7 +113,6 @@ set_load -pin_load 0.0334 [get_ports {driver_io[0]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {clock}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {clock_a}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {inverter_select_a}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_dot_write_n_a}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_write_n_a}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {output_active_a}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {row_col_select_a}]
@@ -153,21 +138,16 @@ set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_ris
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {data_in_a[2]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {data_in_a[1]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {data_in_a[0]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mask_select_a[2]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mask_select_a[1]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mask_select_a[0]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[9]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[8]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[7]}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[6]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[5]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[4]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[3]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[2]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[1]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_address_a[0]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[5]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[4]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[3]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[2]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[1]}]
-set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {mem_sel_col_address_a[0]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {row_select_a[5]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {row_select_a[4]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {row_select_a[3]}]
