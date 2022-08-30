@@ -61,15 +61,18 @@ set ::env(MACRO_PLACEMENT_CFG) $script_dir/macro.cfg
 ### Black-box verilog and views
 set ::env(VERILOG_FILES_BLACKBOX) "\
 	$::env(CARAVEL_ROOT)/verilog/rtl/defines.v \
-	$::env(DESIGN_DIR)/../../verilog/gl/controller_unit.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/controller_core.v \
+	$::env(DESIGN_DIR)/../../verilog/gl/spi_controller.v \
 	$::env(DESIGN_DIR)/../../verilog/gl/driver_core.v "
 
 set ::env(EXTRA_LEFS) "\
-	$::env(DESIGN_DIR)/../../lef/controller_unit.lef \
+	$::env(DESIGN_DIR)/../../lef/controller_core.lef \
+	$::env(DESIGN_DIR)/../../lef/spi_controller.lef \
 	$::env(DESIGN_DIR)/../../lef/driver_core.lef "
 
 set ::env(EXTRA_GDS_FILES) "\
-	$::env(DESIGN_DIR)/../../gds/controller_unit.gds \
+	$::env(DESIGN_DIR)/../../gds/controller_core.gds \
+	$::env(DESIGN_DIR)/../../gds/spi_controller.gds \
 	$::env(DESIGN_DIR)/../../gds/driver_core.gds "
 
 set ::env(SYNTH_DEFINES) [list SYNTHESIS ]
@@ -91,7 +94,8 @@ set ::env(FP_PDN_ENABLE_MACROS_GRID) "1"
 
 
 set ::env(FP_PDN_MACRO_HOOKS) " \
-	 controller_unit_mod    vccd1 vssd1 vccd1 vssd1, \
+	 controller_core_mod    vccd1 vssd1 vccd1 vssd1, \
+	 spi_controller_mod    	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_0   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_1   	vccd1 vssd1 vccd1 vssd1, \
 	 driver_core_2   	vccd1 vssd1 vccd1 vssd1, \
@@ -105,10 +109,10 @@ set ::env(FP_PDN_MACRO_HOOKS) " \
 
 #set ::env(LVS_CONNECT_BY_LABEL) 1
 
-set ::env(GLB_RT_ADJUSTMENT) 0.70
+set ::env(GLB_RT_ADJUSTMENT) 0.60
 
-set ::env(GLB_RT_L2_ADJUSTMENT) 0.6
-set ::env(GLB_RT_L3_ADJUSTMENT) 0.5
+set ::env(GLB_RT_L2_ADJUSTMENT) 0.55
+set ::env(GLB_RT_L3_ADJUSTMENT) 0.45
 
 # The following is because there are no std cells in the example wrapper project.
 set ::env(SYNTH_TOP_LEVEL) 1
@@ -125,12 +129,12 @@ set ::env(CLOCK_TREE_SYNTH) 0
 set ::env(QUIT_ON_LVS_ERROR) "1"
 set ::env(QUIT_ON_MAGIC_DRC) "1"
 set ::env(QUIT_ON_NEGATIVE_WNS) "0"
-set ::env(QUIT_ON_SLEW_VIOLATIONS) "1"
+set ::env(QUIT_ON_SLEW_VIOLATIONS) "0"
 set ::env(QUIT_ON_TIMING_VIOLATIONS) "1"
 
 set ::env(FP_PDN_IRDROP) "1"
-#set ::env(FP_PDN_HORIZONTAL_HALO) "10"
-#set ::env(FP_PDN_VERTICAL_HALO) "10"
+set ::env(FP_PDN_HORIZONTAL_HALO) "10"
+set ::env(FP_PDN_VERTICAL_HALO) "10"
 
 #
 
