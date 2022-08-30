@@ -3,14 +3,13 @@
 -v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
 -v $(USER_PROJECT_VERILOG)/rtl/backend_cycle_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/dot_driver.v
--v $(USER_PROJECT_VERILOG)/rtl/dot_sequencer.v
+-v $(USER_PROJECT_VERILOG)/rtl/driver_sequencer.v
 -v $(USER_PROJECT_VERILOG)/rtl/HBrigeDriver.v
 -v $(USER_PROJECT_VERILOG)/rtl/impulse.v
--v $(USER_PROJECT_VERILOG)/rtl/sequencer_chip.v
 -v $(USER_PROJECT_VERILOG)/rtl/spi_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/system_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/driver_core.v
--v $(USER_PROJECT_VERILOG)/rtl/controller_uint.v
+-v $(USER_PROJECT_VERILOG)/rtl/controller_core.v
 -v $(USER_PROJECT_VERILOG)/rtl/async_reg.v
 
  

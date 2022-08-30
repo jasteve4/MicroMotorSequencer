@@ -19,207 +19,147 @@
  *
  * user_proj_example
  *
+ * This is an example of a (trivially simple) user project,
+ * showing how the user project can connect to the logic
+ * analyzer, the wishbone bus, and the I/O pads.
+ *
+ * This project generates an integer count, which is output
+ * on the user area GPIO pads (digital output only).  The
+ * wishbone connection allows the project to be controlled
+ * (start and stop) from the management SoC program.
+ *
+ * See the testbenches in directory "mprj_counter" for the
+ * example programs that drive this user project.  The three
+ * testbenches are "io_ports", "la_test1", and "la_test2".
  *
  *-------------------------------------------------------------
  */
-`ifndef MPRJ_IO_PADS
-  `define MPRJ_IO_PADS 38
-`endif
 
-
-//module micro_motor_sequencer
-module user_proj_example
-(
+module user_proj_example #(
+    parameter BITS = 32
+)(
 `ifdef USE_POWER_PINS
     inout vccd1,	// User area 1 1.8V supply
     inout vssd1,	// User area 1 digital ground
 `endif
 
+    // Wishbone Slave ports (WB MI A)
+    input wb_clk_i,
+    input wb_rst_i,
+    input wbs_stb_i,
+    input wbs_cyc_i,
+    input wbs_we_i,
+    input [3:0] wbs_sel_i,
+    input [31:0] wbs_dat_i,
+    input [31:0] wbs_adr_i,
+    output wbs_ack_o,
+    output [31:0] wbs_dat_o,
+
     // Logic Analyzer Signals
-    input  wire [127:0] la_data_in,
-    output wire [127:0] la_data_out,
-    input  wire [127:0] la_oenb,
+    input  [127:0] la_data_in,
+    output [127:0] la_data_out,
+    input  [127:0] la_oenb,
 
     // IOs
-    input  wire [`MPRJ_IO_PADS-1:0] io_in,
-    output wire [`MPRJ_IO_PADS-1:0] io_out,
-    output wire [`MPRJ_IO_PADS-1:0] io_oeb,
+    input  [`MPRJ_IO_PADS-1:0] io_in,
+    output [`MPRJ_IO_PADS-1:0] io_out,
+    output [`MPRJ_IO_PADS-1:0] io_oeb,
 
-
-    // Independent clock (on independent integer divider)
-    input wire   user_clock2,
-
-    // User maskable interrupt signals
-    output wire [2:0] irq
-
+    // IRQ
+    output [2:0] irq
 );
-    localparam NUM_OF_DRIVERS = 8;
+    wire clk;
+    wire rst;
 
-    wire [37:0]             user_data_out;
-    wire [37:0]             user_data_oeb;
-    reg [`MPRJ_IO_PADS-1:0] io_in_reg;
+    wire [`MPRJ_IO_PADS-1:0] io_in;
+    wire [`MPRJ_IO_PADS-1:0] io_out;
+    wire [`MPRJ_IO_PADS-1:0] io_oeb;
 
-    wire                    clock;
-    wire                    reset_n;
-    wire                    latch_data;
-    wire                    control_trigger;
-    wire                    ss_n;
-    wire                    sclk;
-    wire                    mosi;
+    wire [31:0] rdata; 
+    wire [31:0] wdata;
+    wire [BITS-1:0] count;
 
-    wire [NUM_OF_DRIVERS*2-1:0]             driver_io;
-    wire                    update_cycle_complete;
-    wire                    miso;
+    wire valid;
+    wire [3:0] wstrb;
+    wire [31:0] la_write;
 
+    // WB MI A
+    assign valid = wbs_cyc_i && wbs_stb_i; 
+    assign wstrb = wbs_sel_i & {4{wbs_we_i}};
+    assign wbs_dat_o = rdata;
+    assign wdata = wbs_dat_i;
 
-    //Q
+    // IO
+    assign io_out = count;
+    assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
+
+    // IRQ
     assign irq = 3'b000;	// Unused
 
+    // LA
+    assign la_data_out = {{(127-BITS){1'b0}}, count};
+    // Assuming LA probes [63:32] are for controlling the count register  
+    assign la_write = ~la_oenb[63:32] & ~{BITS{valid}};
     // Assuming LA probes [65:64] are for controlling the count clk & reset  
-    assign clock = (~la_oenb[64]) ? la_data_in[64]: user_clock2;
+    assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
+    assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    genvar i;
-    generate
-    for(i=0;i<38;i=i+1'b1)
-    begin : io_port_assignment
-        assign io_out[i]       = (~la_oenb[i])    ? la_data_in[i]    : user_data_out[i];
-	assign io_oeb[i]       = (~la_oenb[i+38]) ? la_data_in[i+38] : user_data_oeb[i];
-	assign la_data_out[i]  = (~la_oenb[i])    ? 1'b0             : io_in_reg[i];
-	//assign la_data_out[i] = (~la_oenb[i]) ? 1'b0 : io_in[i];
-	always@(posedge clock)
-	begin
-		io_in_reg[i] = io_in[i];
-	end
-    end
-
-    endgenerate
-    // 15 16 18 19 21 23
-    //  0 14 17 20 22  0
-    // 12  0 13 24  0 25
-    //  0  0  0  0 26 27
-    //  0  0  0  0 28 29
-    //  0  0  0  0 30 31
-    //  0  0  0  0  0 32
-    //  0  0  0 33 34 35
-    //  0  0  0  0 36 37
-    //  0  0  0  0  0  0
-    //  28 decated pins
-
-    assign user_data_out = {
-	1'b0,			// 37 enable_n
-	1'b0,			// 36 control_trigger
-	1'b0,			// 35 latch_data
-	miso,			// 34 miso
-	1'b0,			// 33 mosi
-	1'b0,			// 32 ss_n
-        1'b0,			// 31 sclk 
- 	driver_io[0],		// 30
- 	driver_io[1],		// 29
- 	driver_io[2],		// 28
- 	driver_io[3],		// 27
- 	driver_io[4],		// 26
- 	driver_io[5],		// 25
- 	driver_io[6],		// 24
- 	driver_io[7],		// 23
- 	driver_io[8],		// 22
- 	driver_io[9],		// 21
- 	driver_io[10],		// 20
- 	driver_io[11],		// 19
- 	driver_io[12],		// 18
- 	driver_io[13],		// 17
- 	driver_io[14],		// 16
- 	driver_io[15],		// 15
-	1'b0,			// 14	user_control_enable_6
-	1'b0,			// 13	user_control_enable_5
-	1'b0,			// 12	user_control_enable_4
-	1'b0,			// 11   user_control_enable_3
-	update_cycle_complete,	// 10	flash2_io  / user_control_enable_2
-	1'b0,			// 9	flash2_io  / user_control_enable_1
-	1'b0,			// 8	flash2_csb / user_control_enable_0
-	1'b0,			// 7	irq
-	1'b0,			// 6	ser_tx
-	1'b0,			// 5	ser_rx
-	1'b0,			// 4	SCK
-	1'b0,			// 3	CSB
-	1'b0,			// 2	SDI
-	1'b0,			// 1	SDO  / CPU_TO_IO
-	1'b0			// 0   	JTAG / IO_TO_CPU
-	};
-
-    assign user_data_oeb = {
-	1'b1,			// 37 	reset_n     	: input
-	1'b1,			// 36 	control_trigger : input  
-	1'b1,			// 35 	latch_data 	: input
-	1'b0,			// 34 	miso 	   	: output
-	1'b1,			// 33 	mosi 	   	: input
-	1'b1,			// 32 	ss_n 	   	: input
-	1'b1,			// 31 	sclk	   	: input
-	1'b0,			// 30	hbrige_0 	: output
-	1'b0,			// 29	hbrige_0 	: output
-	1'b0,			// 28	hbrige_0 	: output
-	1'b0,			// 27	hbrige_0 	: output
-	1'b0,			// 26	hbrige_0 	: output
-	1'b0,			// 25	hbrige_0 	: output
-	1'b0,			// 24	hbrige_0 	: output
-	1'b0,			// 23	hbrige_0 	: output
-	1'b0,			// 22	hbrige_0 	: output
-	1'b0,			// 21	hbrige_0 	: output
-	1'b0,			// 20	hbrige_0 	: output
-	1'b0,			// 19	hbrige_0 	: output
-	1'b0,			// 18	hbrige_0 	: output
-	1'b0,			// 17	hbrige_0 	: output
-	1'b0,			// 16	triger_out_n 	: output
-	1'b0,			// 15   n/a 		: input				
-	1'b1,			// 14	user_control_enable_6
-	1'b1,			// 13	user_control_enable_5
-	1'b1,			// 12	user_control_enable_4
-	1'b1,			// 11   user_control_enable_3
-	1'b0,			// 10	flash2_io  / user_control_enable_2
-	1'b1,			// 9	flash2_io  / user_control_enable_1
-	1'b1,			// 8	flash2_csb / user_control_enable_0
-	1'b1,			// 7	irq
-	1'b1,			// 6	ser_tx
-	1'b1,			// 5	ser_rx
-	1'b1,			// 4	SCK
-	1'b1,			// 3	CSB
-	1'b1,			// 2	SDI
-	1'b1,			// 1	SDO  / IO_TO_CPU : input
-	1'b1			// 0   	JTAG / CPU_TO_IO : output
-	};
-
-	
-	assign reset_n         = (~la_oenb[64]) ? la_data_in[64] : io_in_reg[37]; 
-	assign control_trigger = (~la_oenb[65]) ? la_data_in[65] : io_in_reg[36]; 	  
-	assign latch_data      = (~la_oenb[66]) ? la_data_in[66] : io_in_reg[35];	
-	//					                   io_in_reg[34];	
-	//assign mosi 	       = (~la_oenb[67]) ? la_data_in[67] : io_in_reg[33];	
-	assign mosi 	       = (~la_oenb[67]) ? la_data_in[67] : io_in_reg[33];	
-	assign ss_n 	       = (~la_oenb[68]) ? la_data_in[68] : io_in_reg[32];  
-	assign sclk 	       = (~la_oenb[69]) ? la_data_in[69] : io_in_reg[31];	
-
-  sequencer_chip 
-  #(
-    .NUM_OF_DRIVERS (NUM_OF_DRIVERS)
-  )
-  user_design
-  (
-`ifdef USE_POWER_PINS
-     //.vccd1                 (vccd1                 ),	// User area 1 1.8V supply
-     //.vssd1                 (vssd1                 ),	// User area 1 digital ground
-`endif
-    .clock                  (clock                 ),
-    .reset_n                (reset_n               ),
-    .latch_data             (latch_data            ),
-    .control_trigger        (control_trigger       ),
-    .driver_io              (driver_io             ),
-    .update_cycle_complete  (update_cycle_complete ),
-    .sclk                   (sclk                  ),
-    .mosi                   (mosi                  ),
-    .ss_n                   (ss_n                  ),
-    .miso                   (miso                  )
-  );
+    counter #(
+        .BITS(BITS)
+    ) counter(
+        .clk(clk),
+        .reset(rst),
+        .ready(wbs_ack_o),
+        .valid(valid),
+        .rdata(rdata),
+        .wdata(wbs_dat_i),
+        .wstrb(wstrb),
+        .la_write(la_write),
+        .la_input(la_data_in[63:32]),
+        .count(count)
+    );
 
 endmodule
 
-`default_nettype wire
+module counter #(
+    parameter BITS = 32
+)(
+    input clk,
+    input reset,
+    input valid,
+    input [3:0] wstrb,
+    input [BITS-1:0] wdata,
+    input [BITS-1:0] la_write,
+    input [BITS-1:0] la_input,
+    output ready,
+    output [BITS-1:0] rdata,
+    output [BITS-1:0] count
+);
+    reg ready;
+    reg [BITS-1:0] count;
+    reg [BITS-1:0] rdata;
 
+    always @(posedge clk) begin
+        if (reset) begin
+            count <= 0;
+            ready <= 0;
+        end else begin
+            ready <= 1'b0;
+            if (~|la_write) begin
+                count <= count + 1;
+            end
+            if (valid && !ready) begin
+                ready <= 1'b1;
+                rdata <= count;
+                if (wstrb[0]) count[7:0]   <= wdata[7:0];
+                if (wstrb[1]) count[15:8]  <= wdata[15:8];
+                if (wstrb[2]) count[23:16] <= wdata[23:16];
+                if (wstrb[3]) count[31:24] <= wdata[31:24];
+            end else if (|la_write) begin
+                count <= la_write & la_input;
+            end
+        end
+    end
+
+endmodule
+`default_nettype wire

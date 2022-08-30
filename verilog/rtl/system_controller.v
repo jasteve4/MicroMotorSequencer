@@ -35,7 +35,7 @@
 
 module system_controller
 #(
-  parameter NUM_OF_DRIVERS = 16
+  parameter NUM_OF_DRIVERS = 10
 )
 (
   input   wire        clock,
@@ -43,25 +43,10 @@ module system_controller
   input   wire [31:0] cmd_data,
   input   wire        latch_data,
   input   wire        control_trigger,
-
-  output reg [NUM_OF_DRIVERS-1:0]   mem_dot_write_n,
-  output reg [NUM_OF_DRIVERS-1:0]   mem_sel_write_n,
   output reg [NUM_OF_DRIVERS-1:0]   mem_write_n,
   output reg          write_config_n,
-  output reg [2:0]    mask_select,
- 
-  //output wire [15:0]  mem_data,             
-  output wire [6:0]   mem_address,          
-  //output wire [15:0]  mem_dot_data,         
-                       
-  //output wire [15:0]  config_data,          
-  output wire [5:0]   config_address,       
-                       
-  //output wire [7:0]   mem_sel_data,         
-  output wire [6:0]   mem_sel_col_address,  
-  //output wire [6:0]   mem_sel_row_address,
+  output wire [9:0]   mem_address,          
   output wire [15:0]  data_out,          
-
   output reg          timer_enable,
   input wire          update_cycle_complete
 );
@@ -97,116 +82,37 @@ module system_controller
 
   always@(posedge clock)
   begin
-    /*case(reset_n)
-      1'b1    : update_cmd <= latch_cmd;
-      default : update_cmd <= 'b0;
-    endcase*/
       update_cmd <= latch_cmd;
   end
 
 
   assign sequencer_select     = cmd[29:26];
   assign cmd_section          = cmd[31:30];
-  assign data_mask            = cmd[25:23]; // 3 bits for mask
 
   assign data_out             = cmd[15:0];
-  //assign mem_data             = cmd[15:0];  // 16 bits for mem data
-  assign mem_address          = cmd[22:16]; // 7 bits for address
-
-  //assign mem_dot_data         = cmd[15:0];  // 16 bits for dot data
-
-  //assign config_data          = cmd[15:0];  // 16 bits for config data
-  assign config_address       = cmd[21:16]; // 6 bits for address
-
-  //assign mem_sel_data         = cmd[7:0];   // 8 bits for sequence data
-  assign mem_sel_col_address  = cmd[14:8];  // 7 bits for col address
-  //assign mem_sel_row_address  = cmd[21:15]; // 7 bits for row address
-  assign mem_config_select    = cmd[22];
+  assign mem_address          = cmd[25:16]; // 10 bits for address
 
   always@(posedge clock)
   begin
-    /*case({reset_n,cmd_section})
-      3'b100   : write_config_n <= 1'b1;
-      3'b101   : write_config_n <= 1'b1;
-      3'b110   : write_config_n <= (update_cmd & ~mem_config_select) ? 1'b0 : 1'b1;
-      3'b111   : write_config_n <= 1'b1;
-      default  : write_config_n <= 1'b1; 
-    endcase*/
     case(cmd_section)
       2'b00   : write_config_n <= 1'b1;
       2'b01   : write_config_n <= 1'b1;
-      2'b10   : write_config_n <= (update_cmd & ~mem_config_select) ? 1'b0 : 1'b1;
+      2'b10   : write_config_n <= ~update_cmd;
       2'b11   : write_config_n <= 1'b1;
-    endcase
-  end
-
-  always@(posedge clock)
-  begin
-    /*case({reset_n,cmd_section})
-      3'b100   : mask_select <= data_mask; 
-      3'b101   : mask_select <= data_mask;
-      3'b110   : mask_select <= 'b0;
-      3'b111   : mask_select <= 'b0;
-      default  : mask_select <= 'b0; 
-    endcase*/
-    case(cmd_section)
-      2'b00   : mask_select <= data_mask; 
-      2'b01   : mask_select <= data_mask;
-      2'b10   : mask_select <= 'b0;
-      2'b11   : mask_select <= 'b0;
     endcase
   end
 
   genvar I;
   generate
     for(I=0;I<NUM_OF_DRIVERS;I=I+1)
-    begin
+    begin : gen0
       always@(posedge clock)
       begin
-        /*case({reset_n,cmd_section})
-          3'b100   : mem_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1; 
-          3'b101   : mem_write_n[I] <= 1'b1;
-          3'b110   : mem_write_n[I] <= 1'b1;
-          3'b111   : mem_write_n[I] <= 1'b1;
-          default  : mem_write_n[I] <= 1'b1; 
-        endcase*/
         case(cmd_section)
-          2'b00   : mem_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1; 
+          2'b00   : mem_write_n[I] <= (sequencer_select == I) ? ~update_cmd : 1'b1; 
           2'b01   : mem_write_n[I] <= 1'b1;
           2'b10   : mem_write_n[I] <= 1'b1;
           2'b11   : mem_write_n[I] <= 1'b1;
-        endcase
-      end
-      always@(posedge clock)
-      begin
-        /*case({reset_n,cmd_section})
-          3'b100   : mem_dot_write_n[I] <=  1'b1;
-          3'b101   : mem_dot_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1;
-          3'b110   : mem_dot_write_n[I] <= 1'b1;
-          3'b111   : mem_dot_write_n[I] <= 1'b1;
-          default  : mem_dot_write_n[I] <= 1'b1; 
-        endcase*/
-        case(cmd_section)
-          2'b00   : mem_dot_write_n[I] <=  1'b1;
-          2'b01   : mem_dot_write_n[I] <= (I==sequencer_select) ? update_cmd ? 1'b0 : 1'b1 : 1'b1;
-          2'b10   : mem_dot_write_n[I] <= 1'b1;
-          2'b11   : mem_dot_write_n[I] <= 1'b1;
-        endcase
-      end
-      always@(posedge clock)
-      begin
-        /*case({reset_n,cmd_section})
-          3'b100   : mem_sel_write_n[I] <= 1'b1;
-          3'b101   : mem_sel_write_n[I] <= 1'b1;
-          3'b110   : mem_sel_write_n[I] <= (I==sequencer_select) ? (update_cmd & mem_config_select) ? 1'b0 : 1'b1 : 1'b1;
-          3'b111   : mem_sel_write_n[I] <= 1'b1;
-          default  : mem_sel_write_n[I] <= 1'b1; 
-        endcase*/
-        case(cmd_section)
-          2'b00   : mem_sel_write_n[I] <= 1'b1;
-          2'b01   : mem_sel_write_n[I] <= 1'b1;
-          2'b10   : mem_sel_write_n[I] <= (I==sequencer_select) ? (update_cmd & mem_config_select) ? 1'b0 : 1'b1 : 1'b1;
-          2'b11   : mem_sel_write_n[I] <= 1'b1;
         endcase
       end
     end

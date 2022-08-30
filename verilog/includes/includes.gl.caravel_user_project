@@ -1,6 +1,6 @@
 # Caravel user project includes	     
 -v $(USER_PROJECT_VERILOG)/gl/user_project_wrapper.v	     
--v $(USER_PROJECT_VERILOG)/gl/user_proj_example.v     
 -v $(USER_PROJECT_VERILOG)/gl/driver_core.v     
--v $(USER_PROJECT_VERILOG)/gl/controller_unit.v     
+-v $(USER_PROJECT_VERILOG)/gl/controller_core.v     
+-v $(USER_PROJECT_VERILOG)/gl/spi_controller.v     
     

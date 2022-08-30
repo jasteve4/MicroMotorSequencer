@@ -29,32 +29,28 @@ module driver_core
   parameter MEM_ADDRESS_LENGTH   =6
 )
 (
+`ifdef USE_POWER_PINS
+    inout wire vssd1,	// User area 2 analog ground
+    inout wire vccd1,	// User area 1 1.8V supply
+`endif
   input wire                           clock,
   input wire                           clock_a,
-  input wire  [2:0]                    mask_select_a,
-  input wire  [MEM_ADDRESS_LENGTH-1:0] mem_address_a,
+  input   wire [9:0]                   mem_address_a,
   input wire                           mem_write_n_a,
-  input wire                           mem_dot_write_n_a,
   input wire  [MEM_ADDRESS_LENGTH-1:0] row_select_a,
   input wire  [MEM_ADDRESS_LENGTH-1:0] col_select_a,
-  input wire  [MEM_ADDRESS_LENGTH-1:0] mem_sel_col_address_a,
   input wire  [15:0]                   data_in_a,
-  input wire                           mem_sel_write_n_a,
   input wire                           row_col_select_a, 
   input wire                           output_active_a,
   input wire                           inverter_select_a,
   output wire [1:0]                    driver_io
 );
 
-  wire  [2:0]                    mask_select;
-  wire  [MEM_ADDRESS_LENGTH-1:0] mem_address;
+  wire [9:0]                     mem_address;
   wire                           mem_write_n;
-  wire                           mem_dot_write_n;
   wire  [MEM_ADDRESS_LENGTH-1:0] row_select;
   wire  [MEM_ADDRESS_LENGTH-1:0] col_select;
-  wire  [MEM_ADDRESS_LENGTH-1:0] mem_sel_col_address;
   wire  [15:0]                   data_in;
-  wire                           mem_sel_write_n;
   wire                           row_col_select; 
   wire                           output_active;
   wire                           inverter_select;
@@ -70,14 +66,8 @@ module driver_core
     output_active_hold = {output_active_hold[2:0],output_active};
   end
 
-   async_reg  mask_select_trans[2:0](
-    .clock_async        (clock_a),
-    .clock_sync         (clock),
-    .data_async         (mask_select_a),
-    .data_sync          (mask_select)
-  );
 
-  async_reg  mem_address_trans[MEM_ADDRESS_LENGTH-1:0](
+  async_reg  mem_address_trans[9:0](
     .clock_async        (clock_a),
     .clock_sync         (clock),
     .data_async         (mem_address_a),
@@ -91,12 +81,6 @@ module driver_core
     .data_sync          (mem_write_n)
   );
 
-  async_reg  mem_dot_write_n_trans(
-    .clock_async        (clock_a),
-    .clock_sync         (clock),
-    .data_async         (mem_dot_write_n_a),
-    .data_sync          (mem_dot_write_n)
-  );
 
   async_reg  row_select_trans[MEM_ADDRESS_LENGTH-1:0](
     .clock_async        (clock_a),
@@ -112,25 +96,12 @@ module driver_core
     .data_sync          (col_select)
   );
 
-  async_reg  mem_sel_col_address_trans[MEM_ADDRESS_LENGTH-1:0](
-    .clock_async        (clock_a),
-    .clock_sync         (clock),
-    .data_async         (mem_sel_col_address_a),
-    .data_sync          (mem_sel_col_address)
-  );
 
   async_reg  data_in_trans[15:0](
     .clock_async        (clock_a),
     .clock_sync         (clock),
     .data_async         (data_in_a),
     .data_sync          (data_in)
-  );
-
-  async_reg  mem_sel_write_n_trans(
-    .clock_async        (clock_a),
-    .clock_sync         (clock),
-    .data_async         (mem_sel_write_n_a),
-    .data_sync          (mem_sel_write_n)
   );
 
   async_reg  row_col_select_trans(
@@ -156,27 +127,23 @@ module driver_core
 
 
 
-  dot_sequencer 
+  driver_sequencer
   #(
     .MEM_LENGTH           (MEM_LENGTH           ),
     .MEM_ADDRESS_LENGTH   (MEM_ADDRESS_LENGTH   )
   )
-  u2
+    u2
   (
-    .clock                (clock                                        ),
-    .mask_select          (mask_select                                  ),
-    .mem_address          (mem_address                                  ),
-    .mem_write_n          (mem_write_n                                  ),
-    .mem_dot_write_n      (mem_dot_write_n                              ),
-    .row_select           (row_select                                   ),
-    .col_select           (col_select                                   ),
-    .mem_sel_col_address  (mem_sel_col_address                          ),
-    .data_in              (data_in                                      ),
-    .mem_sel_write_n      (mem_sel_write_n                              ),
-    .row_col_select       (row_col_select                               ),
-    .firing_data          (firing_data                                  ),
-    .firing_bit           (firing_bit                                   )
-  );                      
+    .clock                (clock               ),
+    .mem_address          (mem_address         ),
+    .mem_write_n          (mem_write_n         ),
+    .row_select           (row_select          ),
+    .col_select           (col_select          ),
+    .data_in              (data_in             ),
+    .row_col_select       (row_col_select      ),
+    .driver_data          (firing_data         ),
+    .driver_enable        (firing_bit          )
+  );
 
   dot_driver u3(          
     .clock                (clock                ),

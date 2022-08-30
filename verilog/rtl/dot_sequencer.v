@@ -54,7 +54,7 @@ module dot_sequencer
   genvar J;
   generate
     for(J=0;J<MEM_LENGTH;J=J+1)
-    begin
+    begin : memory_sel_gen
       /*always@(posedge clock)
       begin
         case({reset_n,mem_sel_write_n})
@@ -72,9 +72,9 @@ module dot_sequencer
       end
     end
     for(J=0;J<$ceil(MEM_LENGTH/16);J=J+1)
-    begin
+    begin : mem_col_gen
       for(I=0;I<MEM_LENGTH;I=I+1)
-      begin
+      begin : mem_row_gen
         /*always@(posedge clock)
         begin
           case({reset_n,mem_write_n})
@@ -93,7 +93,7 @@ module dot_sequencer
       end
     end
     for(J=0;J<$ceil(MEM_LENGTH/16);J=J+1)
-    begin
+    begin : mem_dot_gen
       /*always@(posedge clock)
       begin
         case({reset_n,mem_dot_write_n})

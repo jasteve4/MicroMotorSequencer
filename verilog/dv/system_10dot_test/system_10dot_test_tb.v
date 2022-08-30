@@ -27,7 +27,20 @@ module system_10dot_test_tb;
   	localparam CCR1 =128;
 	localparam DRIVER_MEM_LEN = 48;
   	localparam NUM_OF_UPDATE_CYCLES = NUM_OF_ROWS*NUM_OF_COLS;  
+  localparam MEM_LENGTH           =48;
+  localparam MEM_ADDRESS_LENGTH   =6;
+  localparam MEM_BOUND            =3;
+  localparam NUM_OF_DOTS_PER_MEM    = 3;
+  localparam ACTIVE_MEM_LOWER_BOUND = 0;
+  localparam ACTIVE_MEM_UPPER_BOUND = ACTIVE_MEM_LOWER_BOUND + NUM_OF_DOTS_PER_MEM * MEM_LENGTH - 1 ;
+  localparam SELECT_MEM_LOWER_BOUND = ACTIVE_MEM_UPPER_BOUND + 1 ;
+  localparam SELECT_MEM_UPPER_BOUND = SELECT_MEM_LOWER_BOUND + MEM_LENGTH -1 ;
+  localparam DOT_MEM_LOWER_BOUND    = SELECT_MEM_UPPER_BOUND + 1 ;
+  localparam DOT_MEM_UPPER_BOUND    = DOT_MEM_LOWER_BOUND + NUM_OF_DOTS_PER_MEM - 1 ;
+  localparam SYS_MEM_BOUND          = DOT_MEM_UPPER_BOUND;
+  localparam SYS_MEM_ADDRESS_LENGTH = 2*MEM_ADDRESS_LENGTH;
 	integer seed=0;
+	
 
 
 
@@ -389,7 +402,7 @@ module system_10dot_test_tb;
     integer ii, jj;
     reg [31:0] device;
     begin
-      config_backend(ccr0,ccr1,NUM_OF_UPDATE_CYCLES,NUM_OF_ROWS-1,NUM_OF_COLS-1,16'b0000_0011_1110_0000,16'b0000_0000_0001_1111);
+      config_backend(CCR0,CCR1,NUM_OF_UPDATE_CYCLES,NUM_OF_ROWS-1,NUM_OF_COLS-1,16'b0000_0011_1110_0000,16'b0000_0000_0001_1111);
       for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
       begin
         device = ii;
@@ -406,19 +419,19 @@ module system_10dot_test_tb;
   endtask
 
   task write_5x5_data;
-    reg data [0:NUM_OF_ROWS-1][NUM_OF_COLS-1:0];
+    //reg data [0:NUM_OF_ROWS-1][NUM_OF_COLS-1:0];
     integer ii,jj;
     reg [47:0] row;
     reg [47:0] col;
     begin
-      data=dot_2d_array;
+      //data=dot_2d_array;
       row=0;
       col=0;
       for(jj=0;jj<NUM_OF_ROWS;jj=jj+1)
       begin
         for(ii=0;ii<NUM_OF_COLS;ii=ii+1)
         begin
-          row[ii] = data[jj][ii];
+          row[ii] = dot_2d_array[jj][ii];
           @(posedge clock);
         end
         update_dot_data(jj,row);
@@ -427,7 +440,7 @@ module system_10dot_test_tb;
       begin
         for(ii=0;ii<NUM_OF_ROWS;ii=ii+1)
         begin
-          col[ii] = data[ii][jj];
+          col[ii] = dot_2d_array[ii][jj];
           @(posedge clock);
         end
         update_dot_data(jj+NUM_OF_ROWS,col);
@@ -516,10 +529,6 @@ module system_10dot_test_tb;
 		wait_n_clocks(100);
 		test_output_5x5(0);
 		test_output_5x5(1);
-		test_output_5x5(2);
-		test_output_5x5(3);
-		test_output_5x5(4);
-		test_output_5x5(5);
 		wait_n_clocks(100);
 		$finish();
 	  
@@ -533,7 +542,7 @@ module system_10dot_test_tb;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
 		repeat (400) @(posedge clock);
 		@(posedge gpio)
-		repeat (4000) begin
+		repeat (10000) begin
 			repeat (100) @(posedge clock);
 			//$display("+1000 cycles");
 		end
