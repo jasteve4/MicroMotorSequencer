@@ -44,7 +44,7 @@ set ::env(CLOCK_BUFFER_FANOUT) 16
 #set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 1350 550"
+set ::env(DIE_AREA) "0 0 900 550"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
