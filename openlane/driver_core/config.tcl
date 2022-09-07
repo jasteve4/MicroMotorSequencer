@@ -35,7 +35,7 @@ set ::env(DESIGN_IS_CORE) 0
 
 set ::env(CLOCK_PORT) "clock clock_a"
 set ::env(CLOCK_NET) "clock clock_a"
-set ::env(CLOCK_PERIOD) "20"
+set ::env(CLOCK_PERIOD) "10"
 
 set ::env(SYNTH_MAX_FANOUT) 10
 set ::env(CLOCK_BUFFER_FANOUT) 16
@@ -44,12 +44,12 @@ set ::env(CLOCK_BUFFER_FANOUT) 16
 #set ::env(PL_RESIZER_MAX_WIRE_LENGTH) 40
 
 set ::env(FP_SIZING) absolute
-set ::env(DIE_AREA) "0 0 900 550"
+set ::env(DIE_AREA) "0 0 600 400"
 
 set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 set ::env(PL_BASIC_PLACEMENT) 0
-set ::env(PL_TARGET_DENSITY) 0.30
+set ::env(PL_TARGET_DENSITY) 0.35
 
 set ::env(FP_CORE_UTIL) 20
 set ::env(FP_IO_VEXTEND) 4
@@ -66,7 +66,7 @@ set ::env(SDC_FILE) $::env(DESIGN_DIR)/base.sdc
 set ::env(BASE_SDC_FILE) $::env(DESIGN_DIR)/base.sdc
 
 
-set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) .5
+#set ::env(GLB_RESIZER_HOLD_SLACK_MARGIN) .5
 
 #set ::env(CTS_CLK_BUFFER_LIST) {sky130_fd_sc_hd__clkbuf_8 sky130_fd_sc_hd__clkbuf_4 sky130_fd_sc_hd__clkbuf_2};
 #set ::env(CTS_DISABLE_POST_PROCESSING) 1
