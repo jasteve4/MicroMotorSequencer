@@ -13,7 +13,7 @@ This design is to precisely control the timing sequence of 10 micro-motors. The 
 make driver_core
 make controller_core
 make spi_controller
-make user_project_wrrappper
+make user_project_wrappper
 ```
 ## RTL Simulation
 ```
